@@ -311,7 +311,7 @@
         // Sizin ilettiğiniz Google Sheets tablosunun doğrudan CSV okuma linki eklendi:
         const GOOGLE_SHEETS_CSV_URL = "https://docs.google.com/spreadsheets/d/1V1SZXxCQTrS3MFHOr7VdmnwvZQwTsy98auagnNNuc8U/export?format=csv";
 
-        // Örnek Veriler (Google Sheets bağlanana kadar kullanılacak)
+        // Örnek Veriler (Dolu ve Boş Kontenjanların test edilebilmesi için (+) ve (-) eklendi)
         const MOCK_DATA = [
             {
                 id: "1",
@@ -321,15 +321,15 @@
                 ageGroups: "6-16 Yaş",
                 phone: "905551234567",
                 description: "Fenerbahçe Spor Kulübü'nün resmi altyapı okulu olarak Ataşehir bölgesinde geleceğin sarı lacivert yıldızlarını yetiştiriyoruz.",
-                allowedGenders: "Kız", // Örnek: Bu okul sadece kız kabul ediyor
+                allowedGenders: "Kız",
                 schedule: {
-                    mon: "17:00 - 18:30 | 8-12 Yaş, 18:30 - 20:00 | 12-16 Yaş",
+                    mon: "17:00 - 18:30 | 8-12 Yaş (+), 18:30 - 20:00 | 12-16 Yaş (-)",
                     tue: "-",
                     wed: "17:00 - 18:30 | 8-12 Yaş",
                     thu: "-",
                     fri: "18:30 - 20:00 | 12-16 Yaş",
-                    sat: "09:00 - 11:00 | Tüm Gruplar",
-                    sun: "10:00 - 12:00 | Minikler"
+                    sat: "09:30 - 10:30 | 2019 – 2018 (+), 10:30 - 11:30 | 2017 - 2016 (-), 11:30 - 12:30 | 2015 - 2014",
+                    sun: "10:00 - 12:00 | Minikler (-)"
                 }
             },
             {
@@ -340,10 +340,10 @@
                 ageGroups: "10-18 Yaş",
                 phone: "905559876543",
                 description: "İzmir'in en köklü altyapı kulüplerinden biri olan Ege Yıldızları, profesyonel lige oyuncu kazandırma hedefiyle yoğun ve disiplinli bir antrenman programı sunar.",
-                allowedGenders: "Kız / Erkek", // Örnek: İki cinsiyet de seçilebilir
+                allowedGenders: "Kız / Erkek",
                 schedule: {
-                    mon: "-", tue: "18:00 - 19:30 | 10-14 Yaş", wed: "-", thu: "18:00 - 19:30 | 14-18 Yaş",
-                    fri: "-", sat: "14:00 - 16:00 | 10-14 Yaş", sun: "14:00 - 16:00 | 14-18 Yaş"
+                    mon: "-", tue: "18:00 - 19:30 | 10-14 Yaş (+)", wed: "-", thu: "18:00 - 19:30 | 14-18 Yaş",
+                    fri: "-", sat: "14:00 - 16:00 | 10-14 Yaş (-)", sun: "14:00 - 16:00 | 14-18 Yaş (+)"
                 }
             },
             {
@@ -356,8 +356,8 @@
                 description: "Sporu sevdirerek öğretme prensibiyle, pedagojik formasyon sahibi antrenörlerimiz eşliğinde temel cimnastik eğitimi veriyoruz.",
                 allowedGenders: "Kız / Erkek", 
                 schedule: {
-                    mon: "16:00 - 17:30 | 6-10 Yaş", tue: "-", wed: "17:00 - 18:30 | 10-14 Yaş", thu: "-",
-                    fri: "17:00 - 18:30 | 10-14 Yaş", sat: "Boş", sun: "Boş"
+                    mon: "16:00 - 17:30 | 6-10 Yaş", tue: "-", wed: "17:00 - 18:30 | 10-14 Yaş (-)", thu: "-",
+                    fri: "17:00 - 18:30 | 10-14 Yaş (+)", sat: "Boş", sun: "Boş"
                 }
             }
         ];
@@ -370,56 +370,36 @@
         // TEMEL FONKSİYONLAR
         // ==========================================
 
-        // Akıllı Branş Bulucu (Okul adına göre ikon ve renk belirler)
+        // Akıllı Branş Bulucu
         function getBranchInfo(schoolName) {
             const name = (schoolName || "").toLowerCase();
-            
-            if (name.includes("basket") || name.includes("basketbol")) {
-                return { name: "Basketbol", icon: "fa-basketball", color: "bg-orange-500" };
-            }
-            if (name.includes("cimnastik") || name.includes("jimnastik")) {
-                return { name: "Cimnastik", icon: "fa-child-reaching", color: "bg-pink-500" };
-            }
-            if (name.includes("yüzme") || name.includes("yuzme")) {
-                return { name: "Yüzme", icon: "fa-person-swimming", color: "bg-cyan-500" };
-            }
-            if (name.includes("futbol")) {
-                return { name: "Futbol", icon: "fa-futbol", color: "bg-green-600" };
-            }
-            if (name.includes("tenis")) {
-                return { name: "Tenis", icon: "fa-table-tennis-paddle-ball", color: "bg-yellow-500" };
-            }
-            if (name.includes("okçuluk") || name.includes("okculuk")) {
-                return { name: "Okçuluk", icon: "fa-bullseye", color: "bg-red-600" };
-            }
-            
-            // Okulun adında hiçbir şey yazmıyorsa veya voleybol geçiyorsa Varsayılan Voleyboldur.
+            if (name.includes("basket") || name.includes("basketbol")) return { name: "Basketbol", icon: "fa-basketball", color: "bg-orange-500" };
+            if (name.includes("cimnastik") || name.includes("jimnastik")) return { name: "Cimnastik", icon: "fa-child-reaching", color: "bg-pink-500" };
+            if (name.includes("yüzme") || name.includes("yuzme")) return { name: "Yüzme", icon: "fa-person-swimming", color: "bg-cyan-500" };
+            if (name.includes("futbol")) return { name: "Futbol", icon: "fa-futbol", color: "bg-green-600" };
+            if (name.includes("tenis")) return { name: "Tenis", icon: "fa-table-tennis-paddle-ball", color: "bg-yellow-500" };
+            if (name.includes("okçuluk") || name.includes("okculuk")) return { name: "Okçuluk", icon: "fa-bullseye", color: "bg-red-600" };
             return { name: "Voleybol", icon: "fa-volleyball", color: "bg-brand" };
         }
 
-        // Uygulamayı Başlat
         async function initApp() {
             showLoading(true);
-            
             if (GOOGLE_SHEETS_CSV_URL && GOOGLE_SHEETS_CSV_URL.trim() !== "") {
                 try {
                     await fetchSheetData();
                 } catch (error) {
-                    console.error("Google Sheets'ten veri çekilirken hata oluştu. Örnek veriler yükleniyor.", error);
+                    console.error("Hata! Örnek veriler yükleniyor.", error);
                     schoolsData = MOCK_DATA;
                 }
             } else {
-                // URL yoksa örnek verileri kullan
                 schoolsData = MOCK_DATA;
             }
-
-            processCities(); // Şehir verilerini okullardan ayıkla
-            renderCities();  // Şehir kartlarını çiz
-            renderHome();    // Okulları çiz
+            processCities(); 
+            renderCities();  
+            renderHome();    
             showLoading(false);
         }
 
-        // Basit CSV Parser (Dış kütüphane kullanmamak için)
         function parseCSV(str) {
             const arr = [];
             let quote = false;
@@ -438,53 +418,35 @@
             return arr;
         }
 
-        // Google Drive Linklerini Doğrudan Resim Linkine Çeviren Fonksiyon (GÜNCELLENDİ)
         function getDirectImageUrl(url) {
             if (!url) return "";
-            
-            // Linkin içindeki 25+ karakterli benzersiz Drive ID'sini bulur
             const match = url.match(/[-\w]{25,}/);
-            
             if (url.includes('drive.google.com') && match) {
-                // Google Drive'ın yeni nesil resim gösterim (thumbnail) altyapısı
                 return `https://drive.google.com/thumbnail?id=${match[0]}&sz=w800`;
             }
             return url;
         }
 
-        // Google Sheets CSV Verisini Çek
         async function fetchSheetData() {
             const response = await fetch(GOOGLE_SHEETS_CSV_URL);
             const csvText = await response.text();
             const rawData = parseCSV(csvText);
-            
-            // Yeni Sıralama: ID, Name, Logo, Location, AgeGroups, Cinsiyet (F), Phone (G), Description (H), Pzt, Sal, Çar, Per, Cum, Cmt, Paz
             const parsedData = [];
-            
             for (let i = 1; i < rawData.length; i++) {
                 if (rawData[i].length > 1 && rawData[i][1].trim() !== '') {
-                    // Logo hücresi doluysa al, değilse boş bırak
                     let rawLogo = (rawData[i][2] && rawData[i][2].trim() !== '') ? rawData[i][2].trim() : "";
-                    
                     parsedData.push({
                         id: rawData[i][0] || String(i),
                         name: rawData[i][1] || "İsimsiz Okul",
-                        // Gelen linki Drive kontrolünden geçirerek logoya ata
                         logo: getDirectImageUrl(rawLogo),
                         location: rawData[i][3] || "Konum Belirtilmedi",
                         ageGroups: rawData[i][4] || "Tüm Yaşlar",
-                        // 6. Sütun (F Sütunu) Cinsiyet Verisi (İndeks 5)
                         allowedGenders: rawData[i][5] || "Kız / Erkek",
                         phone: rawData[i][6] || "",
                         description: rawData[i][7] || "Açıklama bulunmuyor.",
                         schedule: {
-                            mon: rawData[i][8] || "-",
-                            tue: rawData[i][9] || "-",
-                            wed: rawData[i][10] || "-",
-                            thu: rawData[i][11] || "-",
-                            fri: rawData[i][12] || "-",
-                            sat: rawData[i][13] || "-",
-                            sun: rawData[i][14] || "-"
+                            mon: rawData[i][8] || "-", tue: rawData[i][9] || "-", wed: rawData[i][10] || "-",
+                            thu: rawData[i][11] || "-", fri: rawData[i][12] || "-", sat: rawData[i][13] || "-", sun: rawData[i][14] || "-"
                         }
                     });
                 }
@@ -492,13 +454,7 @@
             schoolsData = parsedData;
         }
 
-        // ==========================================
-        // ARAYÜZ (UI) OLUŞTURMA FONKSİYONLARI
-        // ==========================================
-
-        // Şehirler için temsili görsel seçici
         function getCityImage(cityName) {
-            // Şehir isimlerine göre kaliteli Unsplash fotoğrafları
             const cityImages = {
                 "İstanbul": "https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?q=80&w=1000&auto=format&fit=crop",
                 "İzmir": "https://images.unsplash.com/photo-1596395819057-e37f55a8516b?q=80&w=1000&auto=format&fit=crop",
@@ -506,42 +462,28 @@
                 "Antalya": "https://images.unsplash.com/photo-1542052125323-e69ad37a47c2?q=80&w=1000&auto=format&fit=crop",
                 "Bursa": "https://images.unsplash.com/photo-1578310065096-7c65342a3ec2?q=80&w=1000&auto=format&fit=crop"
             };
-            // Eğer şehir listede yoksa harika bir genel şehir manzarası ver
             return cityImages[cityName] || "https://images.unsplash.com/photo-1449844908441-8829872d2607?q=80&w=1000&auto=format&fit=crop";
         }
 
-        // Okul konumlarından şehirleri ayıkla ve grupla
         function processCities() {
             citiesMap = {};
             schoolsData.forEach(school => {
                 let city = "Bilinmeyen";
                 if(school.location) {
-                    // "Kadıköy, İstanbul" -> "İstanbul" kısmını almak için virgülden bölüyoruz
                     let parts = school.location.split(',');
                     city = parts[parts.length - 1].trim();
                 }
-                school.city = city; // Okul objesinin içine eklendi
-
-                if(!citiesMap[city]) {
-                    citiesMap[city] = {
-                        name: city,
-                        count: 0,
-                        image: getCityImage(city)
-                    };
-                }
+                school.city = city;
+                if(!citiesMap[city]) { citiesMap[city] = { name: city, count: 0, image: getCityImage(city) }; }
                 citiesMap[city].count++;
             });
         }
 
-        // Filtreleme fonksiyonu
         function filterByCity(cityName) {
             currentCityFilter = cityName;
             renderHome();
-            
-            // Okullar listesinin başına pürüzsüz kaydır
             const header = document.getElementById('schools-list-header');
-            const offset = header.getBoundingClientRect().top + window.scrollY - 100;
-            window.scrollTo({top: offset, behavior: 'smooth'});
+            window.scrollTo({top: header.getBoundingClientRect().top + window.scrollY - 100, behavior: 'smooth'});
         }
 
         function clearFilter() {
@@ -549,36 +491,24 @@
             renderHome();
         }
 
-        // Şehirler (Bento Box) Gridini Çiz
         function renderCities() {
             const citiesEl = document.getElementById('cities-grid');
             citiesEl.innerHTML = '';
-
             const citiesArray = Object.values(citiesMap);
             if (citiesArray.length === 0) return;
 
             citiesArray.forEach((city, index) => {
-                // Görseldeki gibi bir yapı oluşturmak için (örneğin son kutu 2 sütun kaplasın)
                 let colClass = "col-span-1";
-                if (index % 5 === 4 || (citiesArray.length === 2 && index === 1)) {
-                    colClass = "sm:col-span-2 lg:col-span-2"; // Büyük ekranlarda yayvan kart
-                }
-
+                if (index % 5 === 4 || (citiesArray.length === 2 && index === 1)) { colClass = "sm:col-span-2 lg:col-span-2"; }
                 const card = document.createElement('div');
                 card.className = `relative rounded-2xl overflow-hidden h-64 cursor-pointer group shadow-md hover:shadow-xl transition-all duration-300 ${colClass}`;
                 card.onclick = () => filterByCity(city.name);
-
                 card.innerHTML = `
                     <img src="${city.image}" alt="${city.name}" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out">
-                    <!-- Görseldeki lacivert degrade (gradient) uyarlaması -->
                     <div class="absolute inset-0 bg-gradient-to-t from-[#0a192f] via-[#0a192f]/50 to-transparent opacity-90 group-hover:opacity-100 transition-opacity"></div>
-                    
-                    <!-- Sol Üst Rozet -->
                     <div class="absolute top-4 left-4 bg-[#3b5998]/90 backdrop-blur-sm border border-white/10 text-white text-[11px] font-bold px-3 py-1.5 rounded flex items-center gap-1.5 shadow-sm">
                         <span class="text-blue-200">${city.count}</span> Lokasyon
                     </div>
-                    
-                    <!-- Alt Metinler -->
                     <div class="absolute bottom-5 left-5 right-5 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
                         <h4 class="text-2xl font-bold text-white mb-1.5 tracking-wide">${city.name}</h4>
                         <p class="text-blue-50/80 text-xs sm:text-sm font-light line-clamp-2 pr-4">
@@ -590,24 +520,15 @@
             });
         }
 
-        // Yükleniyor durumunu göster/gizle
         function showLoading(isLoading) {
             const loadingEl = document.getElementById('loading-state');
             const homeEl = document.getElementById('home-view');
-            
-            if (isLoading) {
-                loadingEl.classList.remove('hidden');
-                homeEl.classList.add('hidden');
-            } else {
-                loadingEl.classList.add('hidden');
-                homeEl.classList.remove('hidden');
-            }
+            if (isLoading) { loadingEl.classList.remove('hidden'); homeEl.classList.add('hidden'); } 
+            else { loadingEl.classList.add('hidden'); homeEl.classList.remove('hidden'); }
         }
 
-        // Görünüm Değiştirici (SPA Mantığı)
         function showView(viewName) {
             window.scrollTo({ top: 0, behavior: 'smooth' });
-            
             if (viewName === 'home') {
                 document.getElementById('home-view').classList.remove('hidden');
                 document.getElementById('detail-view').classList.add('hidden');
@@ -617,16 +538,13 @@
             }
         }
 
-        // Ana Sayfa Kartlarını Çiz
         function renderHome() {
             const gridEl = document.getElementById('schools-grid');
             const countEl = document.getElementById('school-count'); 
             const activeFilterBadge = document.getElementById('active-filter-badge');
             const filterText = document.getElementById('filter-text');
-            
-            gridEl.innerHTML = ''; // Temizle
+            gridEl.innerHTML = ''; 
 
-            // Filtreleme işlemi
             let filteredSchools = schoolsData;
             if (currentCityFilter) {
                 filteredSchools = schoolsData.filter(s => s.city === currentCityFilter);
@@ -642,63 +560,42 @@
                 return;
             }
 
-            // Toplam okul sayısını yazdır
             if(countEl) countEl.innerText = `${filteredSchools.length} Okul Listeleniyor`;
-
-            // Izgara aralığını yukarı doğru taşan logolar için biraz daha açıyoruz
             gridEl.className = "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-14 mt-12";
 
             filteredSchools.forEach(school => {
                 const card = document.createElement('div');
-                // Kartlara üstten boşluk (pt-12) verip içerikleri ortaladık
                 card.className = "bg-white rounded-2xl shadow-sm border border-gray-100 p-5 pt-12 hover:shadow-lg transition-all duration-300 flex flex-col items-center text-center cursor-pointer group relative mt-4";
                 card.onclick = () => loadDetail(school.id);
-                
                 const branch = getBranchInfo(school.name);
 
-                // --- LOGO VEYA İKON KONTROLÜ (KUSURSUZ MERKEZLEME VE BEYAZ ZEMİN) ---
                 let logoContent = `<i class="fa-solid fa-volleyball text-4xl text-gray-300"></i>`;
                 if (school.logo) {
-                    // object-contain ve arka plan tamamen beyaz
                     logoContent = `<img src="${school.logo}" alt="${school.name} Logo" class="w-full h-full object-contain" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                                    <div class="w-full h-full flex items-center justify-center" style="display: none;"><i class="fa-solid fa-volleyball text-4xl text-gray-300"></i></div>`;
                 }
 
                 card.innerHTML = `
-                    <!-- Logo Taşırma Alanı (Üst Orta) - Yuvarlak Altıgen -->
                     <div class="absolute -top-12 left-1/2 transform -translate-x-1/2 group-hover:-translate-y-1 transition-transform duration-300 z-10" style="filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));">
                         <div class="relative w-24 h-24 flex items-center justify-center">
-                            <!-- Dış beyaz çerçeve -->
                             <div class="hex-shape absolute inset-0 bg-white"></div>
-                            <!-- İç beyaz alan (inset-1 ile simetrik olarak 4px küçültüldü, mükemmel ortalama) -->
-                            <div class="hex-shape absolute inset-1 bg-white flex items-center justify-center overflow-hidden">
-                                ${logoContent}
-                            </div>
-                            
-                            <!-- BRANŞ ROZETİ (Görselde İşaretlenen Alan) -->
+                            <div class="hex-shape absolute inset-1 bg-white flex items-center justify-center overflow-hidden">${logoContent}</div>
                             <div class="absolute -bottom-1 left-1/2 transform -translate-x-1/2 ${branch.color} text-white w-7 h-7 rounded-full flex items-center justify-center border-2 border-white shadow-sm z-20" title="${branch.name}">
                                 <i class="fa-solid ${branch.icon} text-[11px]"></i>
                             </div>
                         </div>
                     </div>
-                    
-                    <!-- Okul Bilgileri -->
                     <div class="mb-4 w-full mt-2">
                         <h3 class="text-lg font-bold text-gray-900 leading-tight group-hover:text-brand transition-colors">${school.name}</h3>
                         <div class="flex items-center justify-center text-sm text-gray-500 mt-2 gap-1">
-                            <i class="fa-solid fa-location-dot text-brand/70"></i>
-                            <span>${school.location}</span>
+                            <i class="fa-solid fa-location-dot text-brand/70"></i><span>${school.location}</span>
                         </div>
                     </div>
-                    
-                    <!-- Yaş Grupları -->
                     <div class="flex flex-wrap justify-center gap-2 mb-5 w-full">
                         <span class="px-3 py-1.5 bg-blue-50 text-brand-dark text-xs font-semibold rounded-lg border border-blue-100">
                             <i class="fa-solid fa-users mr-1"></i> ${school.ageGroups}
                         </span>
                     </div>
-                    
-                    <!-- Buton -->
                     <button class="w-full mt-auto bg-gray-50 hover:bg-brand hover:text-white text-brand font-medium py-2.5 rounded-xl transition-colors border border-gray-200 hover:border-brand flex items-center justify-center gap-2">
                         Detayları Gör <i class="fa-solid fa-arrow-right text-sm"></i>
                     </button>
@@ -707,7 +604,9 @@
             });
         }
 
-        // Detay Sayfasını Doldur ve Göster
+        // ==========================================
+        // DETAY SAYFASI VE KONTENJAN MANTIĞI
+        // ==========================================
         function loadDetail(id) {
             const school = schoolsData.find(s => s.id === id);
             if (!school) return;
@@ -715,99 +614,101 @@
             const detailEl = document.getElementById('detail-content');
             const branch = getBranchInfo(school.name);
             
-            // Yeni Nesil 7 Günlük Takvim Çizimi (Cumartesi - Pazar Başa Alındı)
             const days = [
-                { key: 'sat', label: 'Cumartesi' },
-                { key: 'sun', label: 'Pazar' },
-                { key: 'mon', label: 'Pazartesi' },
-                { key: 'tue', label: 'Salı' },
-                { key: 'wed', label: 'Çarşamba' },
-                { key: 'thu', label: 'Perşembe' },
-                { key: 'fri', label: 'Cuma' }
+                { key: 'sat', label: 'Cumartesi' }, { key: 'sun', label: 'Pazar' },
+                { key: 'mon', label: 'Pazartesi' }, { key: 'tue', label: 'Salı' },
+                { key: 'wed', label: 'Çarşamba' }, { key: 'thu', label: 'Perşembe' }, { key: 'fri', label: 'Cuma' }
             ];
 
-            // ESKİ IZGARA (GRID) YAPISI YERİNE MODERN YATAY LİSTE YAPISI
             let scheduleHTML = `<div class="flex flex-col gap-3 mt-4">`;
-            let availableSessions = []; // Form için seansları toplayacağız
-            let activeDaysCount = 0; // Dolu gün sayısını sayacağız
+            let availableSessions = [];
+            let activeDaysCount = 0; 
             
             days.forEach(day => {
                 let dayData = (school.schedule && school.schedule[day.key]) ? school.schedule[day.key] : "-";
-                
-                // Kapalı durumlarını genişlettik
                 const isOff = dayData === "-" || dayData.toLowerCase() === "boş" || dayData.toLowerCase() === "dinlenme" || dayData.toLowerCase() === "kapalı" || dayData.trim() === "";
 
-                // EĞER GÜN KAPALIYSA/BOŞSA HİÇ ÇİZME (GİZLE), SONRAKİ GÜNE GEÇ
                 if (isOff) return;
 
-                activeDaysCount++;
                 let sessionsHTML = "";
-                
-                // Virgül (,) ile ayrılmış birden fazla seans varsa ayır
                 const sessions = dayData.split(',');
                 
                 sessions.forEach((session, index) => {
-                    let time = session.trim();
+                    let rawSession = session.trim();
+                    if (rawSession === "") return;
+
+                    // ---- AKILLI KONTENJAN (+) (-) ALGILAYICISI ----
+                    let isFull = /\(\s*-\s*\)/.test(rawSession); // (-) içeriyorsa Dolu
+                    let isAvailable = /\(\s*\+\s*\)/.test(rawSession); // (+) içeriyorsa Müsait
+                    
+                    // İşaretleri metinden temizleyelim ki görsel olarak güzel dursun
+                    let cleanSession = rawSession.replace(/\(\s*-\s*\)/g, '').replace(/\(\s*\+\s*\)/g, '').trim();
+
+                    let time = cleanSession;
                     let age = "";
                     
-                    // Saati ve Yaşı ayır
-                    if (session.includes('|')) {
-                        const parts = session.split('|');
+                    if (cleanSession.includes('|')) {
+                        const parts = cleanSession.split('|');
                         time = parts[0].trim();
-                        age = parts[1].trim();
-                    } else if (session.includes('\n')) {
-                        const parts = session.split('\n');
+                        age = parts[1] ? parts[1].trim() : "";
+                    } else if (cleanSession.includes('\n')) {
+                        const parts = cleanSession.split('\n');
                         time = parts[0].trim();
-                        age = parts[1].trim();
+                        age = parts[1] ? parts[1].trim() : "";
                     }
 
-                    // WhatsApp dropdown'ı için listeye ekle
-                    availableSessions.push({
-                        dayKey: day.key,
-                        dayLabel: day.label,
-                        time: time,
-                        age: age
-                    });
+                    if (time !== "") {
+                        // Seçim formu için hafızaya al
+                        availableSessions.push({
+                            dayKey: day.key,
+                            dayLabel: day.label,
+                            time: time,
+                            age: age,
+                            isFull: isFull,
+                            isAvailable: isAvailable
+                        });
 
-                    // Modern Yatay Seans Kapsayıcısı (Pill/Badge Tarzı)
-                    sessionsHTML += `
-                        <div class="bg-white border border-gray-200/80 shadow-[0_2px_8px_-4px_rgba(0,0,0,0.1)] rounded-xl px-4 py-2.5 flex flex-col justify-center items-center hover:border-brand/50 hover:shadow-md transition-all cursor-default">
-                            <span class="font-extrabold text-gray-800 text-[15px] tracking-tight whitespace-nowrap">${time}</span>
-                            ${age ? `<span class="text-[10px] text-gray-500 font-bold mt-1 bg-gray-50 px-2 py-0.5 rounded-md border border-gray-100 whitespace-nowrap">${age}</span>` : ''}
-                        </div>
-                    `;
+                        // Takvim Üzerindeki Görsel Etiket (Badge)
+                        let statusBadge = "";
+                        if (isFull) {
+                            statusBadge = `<div class="absolute -top-2.5 -right-2 bg-red-500 text-white text-[9px] font-extrabold px-1.5 py-0.5 rounded-md shadow-sm border border-red-600 z-10 tracking-wider uppercase">Dolu</div>`;
+                        } else if (isAvailable) {
+                            statusBadge = `<div class="absolute -top-2.5 -right-2 bg-[#25D366] text-white text-[9px] font-extrabold px-1.5 py-0.5 rounded-md shadow-sm border border-green-600 z-10 tracking-wider uppercase">Müsait</div>`;
+                        }
+
+                        // Modern Yatay Seans Kapsayıcısı (Pill/Badge Tarzı)
+                        sessionsHTML += `
+                            <div class="relative bg-white border ${isFull ? 'border-red-200 bg-red-50/20 opacity-80' : 'border-gray-200/80 hover:border-brand/50'} shadow-[0_2px_8px_-4px_rgba(0,0,0,0.1)] rounded-xl px-4 py-2.5 flex flex-col justify-center items-center hover:shadow-md transition-all cursor-default">
+                                ${statusBadge}
+                                <span class="font-extrabold ${isFull ? 'text-gray-400 line-through' : 'text-gray-800'} text-[15px] tracking-tight whitespace-nowrap">${time}</span>
+                                ${age ? `<span class="text-[10px] ${isFull ? 'text-gray-400' : 'text-gray-500'} font-bold mt-1 bg-gray-50 px-2 py-0.5 rounded-md border border-gray-100 whitespace-nowrap">${age}</span>` : ''}
+                            </div>
+                        `;
+                    }
                 });
 
-                // Günlere Göre Özel Renk Belirleme (Hafta sonu renkleri korundu)
+                if (sessionsHTML === "") return;
+                activeDaysCount++;
+
                 let cardBgColor = "bg-gray-50/50";
                 let borderColor = "border-gray-200/60";
                 let dayTextColor = "text-gray-700";
                 let iconColor = "text-gray-400";
 
                 if (day.key === 'sat') {
-                    cardBgColor = "bg-blue-50/40";
-                    borderColor = "border-blue-200/70";
-                    dayTextColor = "text-blue-700";
-                    iconColor = "text-blue-400";
+                    cardBgColor = "bg-blue-50/40"; borderColor = "border-blue-200/70"; dayTextColor = "text-blue-700"; iconColor = "text-blue-400";
                 } else if (day.key === 'sun') {
-                    cardBgColor = "bg-orange-50/40";
-                    borderColor = "border-orange-200/70";
-                    dayTextColor = "text-orange-600";
-                    iconColor = "text-orange-400";
+                    cardBgColor = "bg-orange-50/40"; borderColor = "border-orange-200/70"; dayTextColor = "text-orange-600"; iconColor = "text-orange-400";
                 }
 
-                // Yatay Gün Kartı
                 scheduleHTML += `
                     <div class="${cardBgColor} border ${borderColor} rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center gap-4 hover:shadow-md transition-all group">
-                        <!-- Sol Taraf: Gün Adı -->
                         <div class="sm:w-40 flex-shrink-0 flex items-center gap-3 border-b sm:border-b-0 sm:border-r border-gray-200/60 pb-3 sm:pb-0 sm:pr-4">
                             <div class="w-9 h-9 rounded-full bg-white shadow-sm border ${borderColor} flex items-center justify-center">
                                 <i class="fa-regular fa-calendar ${iconColor} text-sm group-hover:scale-110 transition-transform"></i>
                             </div>
                             <span class="font-extrabold text-[13px] tracking-widest uppercase ${dayTextColor}">${day.label}</span>
                         </div>
-                        
-                        <!-- Sağ Taraf: Seansların Yan Yana Dizilimi -->
                         <div class="flex flex-wrap gap-2.5 flex-grow">
                             ${sessionsHTML}
                         </div>
@@ -815,7 +716,6 @@
                 `;
             });
             
-            // Eğer okulun hiçbir gününde kayıt yoksa verilecek uyarı
             if (activeDaysCount === 0) {
                 scheduleHTML += `
                     <div class="bg-gray-50 border border-gray-200/60 rounded-2xl p-8 text-center text-gray-500 flex flex-col items-center">
@@ -827,7 +727,7 @@
 
             scheduleHTML += `</div>`;
 
-            // WhatsApp Mesaj Şablonu İçin Dinamik Seçim Kartları (Tanışma Antrenmanı Konsepti)
+            // WhatsApp Mesaj Şablonu İçin Dinamik Seçim Kartları
             let optionsHTML = `
                 <label class="cursor-pointer relative block sm:col-span-full">
                     <input type="radio" name="session" value="Tanışma Antrenmanı" class="session-radio sr-only" checked>
@@ -837,7 +737,7 @@
                                 <i class="fa-solid fa-handshake-angle text-brand"></i> Tanışma Antrenmanı & Bilgi
                             </span>
                             <span class="text-xs sm:text-sm font-medium text-gray-600 mt-1.5 leading-relaxed">
-                                Deneme antrenmanına katılmak için lütfen aşağıdan <strong class="text-brand-dark">sporcunun doğum yılına uygun</strong> olan seansı seçiniz. Herhangi bir seans seçmeden sadece genel bilgi almak isterseniz bu seçeneği işaretli bırakabilirsiniz.
+                                Deneme antrenmanına katılmak için lütfen aşağıdan <strong class="text-brand-dark">sporcunun doğum yılına uygun ve MÜSAİT</strong> olan seansı seçiniz. Sadece genel bilgi almak isterseniz bu seçeneği bırakabilirsiniz.
                             </span>
                         </div>
                         <div class="relative w-6 h-6 flex-shrink-0 ml-2 mt-0.5">
@@ -851,95 +751,106 @@
             availableSessions.forEach(sess => {
                 const optValue = `${sess.dayLabel} / ${sess.time} ${sess.age ? '('+sess.age+')' : ''}`;
                 
-                // Kartlar için Özel Renk Belirleme
                 let radioBgColor = "bg-white";
                 let radioBorderColor = "border-gray-100";
                 let dayTextColor = "text-brand";
-                
-                if (sess.dayKey === 'sat') {
-                    radioBgColor = "bg-blue-50/30";
-                    radioBorderColor = "border-blue-100";
-                    dayTextColor = "text-blue-600";
-                } else if (sess.dayKey === 'sun') {
-                    radioBgColor = "bg-orange-50/30";
-                    radioBorderColor = "border-orange-100";
-                    dayTextColor = "text-orange-500";
+                let disabledAttr = "";
+                let cursorClass = "cursor-pointer";
+                let hoverClass = "hover:border-brand/40 hover:shadow";
+                let statusTag = "";
+
+                // DOLU İSE ÇALIŞACAK MANTIK
+                if (sess.isFull) {
+                    disabledAttr = "disabled";
+                    cursorClass = "cursor-not-allowed";
+                    hoverClass = "";
+                    radioBgColor = "bg-gray-50/50 grayscale-[40%]";
+                    radioBorderColor = "border-gray-200 opacity-70";
+                    dayTextColor = "text-gray-400";
+                    statusTag = `<span class="text-[9px] font-bold text-red-500 bg-red-50 px-1.5 py-0.5 rounded border border-red-100 ml-2 shadow-sm flex items-center gap-1 uppercase tracking-wider"><i class="fa-solid fa-lock text-[8px]"></i> Dolu</span>`;
+                } else {
+                    // Normal Renkler
+                    if (sess.dayKey === 'sat') {
+                        radioBgColor = "bg-blue-50/30"; radioBorderColor = "border-blue-100"; dayTextColor = "text-blue-600";
+                    } else if (sess.dayKey === 'sun') {
+                        radioBgColor = "bg-orange-50/30"; radioBorderColor = "border-orange-100"; dayTextColor = "text-orange-500";
+                    }
+                    
+                    // MÜSAİT (+) YAZIYORSA ÇALIŞACAK MANTIK
+                    if (sess.isAvailable) {
+                        statusTag = `<span class="text-[9px] font-bold text-[#25D366] bg-green-50 px-1.5 py-0.5 rounded border border-green-200 ml-2 shadow-sm flex items-center gap-1 uppercase tracking-wider"><i class="fa-solid fa-unlock text-[8px]"></i> Müsait</span>`;
+                    }
                 }
 
                 optionsHTML += `
-                    <label class="cursor-pointer relative block">
-                        <input type="radio" name="session" value="${optValue}" class="session-radio sr-only">
-                        <div class="radio-card p-4 rounded-xl border-2 ${radioBorderColor} ${radioBgColor} transition-all hover:border-brand/40 flex items-start justify-between shadow-sm hover:shadow h-full">
-                            <div class="pr-2 flex flex-col">
-                                <span class="text-[10px] font-extrabold ${dayTextColor} uppercase tracking-wider mb-1">${sess.dayLabel}</span>
-                                <span class="font-bold text-gray-800 text-sm sm:text-base">${sess.time}</span>
-                                ${sess.age ? `<span class="text-[11px] text-gray-500 font-semibold mt-1.5 inline-block bg-white border border-gray-200/60 px-2 py-0.5 rounded w-fit">${sess.age}</span>` : ''}
+                    <label class="${cursorClass} relative block ${sess.isFull ? 'opacity-80' : ''}">
+                        <input type="radio" name="session" value="${optValue}" class="session-radio sr-only" ${disabledAttr}>
+                        <div class="radio-card p-4 rounded-xl border-2 ${radioBorderColor} ${radioBgColor} transition-all ${hoverClass} flex items-start justify-between shadow-sm h-full">
+                            <div class="pr-2 flex flex-col w-full">
+                                <div class="flex items-center justify-between mb-1.5 w-full">
+                                    <span class="text-[10px] font-extrabold ${dayTextColor} uppercase tracking-wider">${sess.dayLabel}</span>
+                                    ${statusTag}
+                                </div>
+                                <span class="font-bold ${sess.isFull ? 'text-gray-400 line-through' : 'text-gray-800'} text-sm sm:text-base">${sess.time}</span>
+                                ${sess.age ? `<span class="text-[11px] text-gray-500 font-semibold mt-1.5 inline-block ${sess.isFull ? 'bg-transparent' : 'bg-white border-gray-200/60'} border px-2 py-0.5 rounded w-fit">${sess.age}</span>` : ''}
                             </div>
+                            
+                            ${!sess.isFull ? `
                             <div class="relative w-5 h-5 flex-shrink-0 ml-1 mt-1">
                                 <i class="fa-regular fa-circle absolute inset-0 text-gray-300 text-xl transition-all duration-300 unchecked-icon"></i>
                                 <i class="fa-solid fa-circle-check absolute inset-0 text-brand text-xl opacity-0 transform scale-50 transition-all duration-300 checked-icon"></i>
+                            </div>` : `
+                            <div class="w-5 h-5 flex-shrink-0 ml-1 mt-1 flex items-center justify-center">
+                                <i class="fa-solid fa-ban text-gray-300 text-lg"></i>
                             </div>
+                            `}
                         </div>
                     </label>
                 `;
             });
 
-            // --- DETAY SAYFASI LOGO VEYA İKON KONTROLÜ (KUSURSUZ MERKEZLEME VE BEYAZ ZEMİN) ---
+            // --- DETAY SAYFASI LOGO VEYA İKON KONTROLÜ ---
             let detailLogoContent = `<i class="fa-solid fa-volleyball text-5xl sm:text-7xl text-gray-300"></i>`;
             if (school.logo) {
-                // object-contain ve arka plan tamamen beyaz
                 detailLogoContent = `<img src="${school.logo}" alt="Logo" class="w-full h-full object-contain" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                                <div class="w-full h-full flex items-center justify-center" style="display: none;"><i class="fa-solid fa-volleyball text-5xl sm:text-7xl text-gray-300"></i></div>`;
             }
 
-            // JavaScript objesindeki tırnak hatalarını önlemek için kaçış dizisi
             const safeSchoolName = school.name.replace(/'/g, "\\'").replace(/"/g, '&quot;');
             const safePhone = school.phone ? String(school.phone).replace(/'/g, "\\'") : "";
 
-            // --- CİNSİYET KISITLAMASI MANTIĞI ---
             const allowed = (school.allowedGenders || "").toLowerCase();
             let canGirl = allowed.includes("kız") || allowed.includes("kiz") || allowed === "" || allowed.includes("tümü") || allowed.includes("her ikisi");
             let canBoy = allowed.includes("erkek") || allowed === "" || allowed.includes("tümü") || allowed.includes("her ikisi");
-            
-            // Eğer ikisi de eşleşmediyse güvenlik için ikisini de aç
             if (!canGirl && !canBoy) { canGirl = true; canBoy = true; }
 
-            // Hangi butonun varsayılan seçili olacağını belirliyoruz
             let girlChecked = canGirl ? "checked" : "";
             let boyChecked = (!canGirl && canBoy) ? "checked" : "";
-            if (canGirl && canBoy) girlChecked = "checked"; // İkisi de açıksa varsayılan Kız
+            if (canGirl && canBoy) girlChecked = "checked"; 
 
-            // Kapak fotoğrafı için okulun bulunduğu şehrin görselini kullan (Eğer yoksa standart voleybol/spor resmi)
             const coverImageUrl = (school.city && citiesMap[school.city]) ? citiesMap[school.city].image : "https://images.unsplash.com/photo-1593786480749-011039860b7b?q=80&w=1000&auto=format&fit=crop";
 
             detailEl.innerHTML = `
-                <!-- Kapak Fotoğrafı (Banner) -->
+                <!-- Kapak Fotoğrafı -->
                 <div class="h-48 sm:h-64 relative w-full">
                     <img src="${coverImageUrl}" alt="Kapak Fotoğrafı" class="w-full h-full object-cover">
-                    <!-- Sadece estetik amaçlı alta doğru hafif kararan filtre -->
                     <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
                 </div>
 
-                <!-- Profil ve Başlık Bilgileri Alanı -->
+                <!-- Profil Alanı -->
                 <div class="px-6 pb-8 pt-16 sm:pt-20 relative text-center border-b border-gray-100 bg-white">
-                    <!-- Detay Sayfası Logo Taşırma Alanı (Kapak resmi ile alt beyaz gövdenin tam sınırında) -->
                     <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20" style="filter: drop-shadow(0 8px 12px rgba(0,0,0,0.15));">
                         <div class="relative w-32 h-32 sm:w-40 sm:h-40 flex items-center justify-center">
-                            <!-- Dış beyaz çerçeve -->
                             <div class="hex-shape absolute inset-0 bg-white"></div>
-                            <!-- İç beyaz alan -->
                             <div class="hex-shape absolute inset-1 sm:inset-[5px] bg-white flex items-center justify-center overflow-hidden">
                                 ${detailLogoContent}
                             </div>
-                            
-                            <!-- BRANŞ ROZETİ (Görselde İşaretlenen Alan) -->
                             <div class="absolute -bottom-2 sm:-bottom-3 left-1/2 transform -translate-x-1/2 ${branch.color} text-white w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center border-[3px] border-white shadow-md z-20" title="${branch.name}">
                                 <i class="fa-solid ${branch.icon} text-lg sm:text-xl"></i>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Okul Adı ve İstenen Temel Bilgiler (İstatistikler ve diğer butonlar görseldeki gibi gizlendi) -->
                     <h2 class="text-2xl sm:text-3xl font-extrabold text-gray-900 mb-3 tracking-tight">${school.name}</h2>
                     <div class="flex flex-wrap items-center justify-center gap-3 sm:gap-5 text-sm font-medium text-gray-600">
                         <span class="flex items-center gap-1.5"><i class="fa-solid fa-location-dot text-brand"></i> ${school.location}</span>
@@ -949,10 +860,8 @@
                     </div>
                 </div>
 
-                <!-- İçerik Alanı (Alt Kısımlar) -->
                 <div class="p-6 sm:p-8 space-y-8 bg-white">
                     
-                    <!-- Hakkında -->
                     <section>
                         <h3 class="text-lg font-bold text-gray-900 border-b border-gray-200 pb-2 mb-4 flex items-center gap-2">
                             <i class="fa-solid fa-circle-info text-brand"></i> Hakkımızda
@@ -960,7 +869,6 @@
                         <p class="text-gray-600 leading-relaxed">${school.description}</p>
                     </section>
 
-                    <!-- Antrenman Saatleri -->
                     <section>
                         <h3 class="text-lg font-bold text-gray-900 border-b border-gray-200 pb-2 mb-4 flex items-center gap-2">
                             <i class="fa-solid fa-calendar-days text-brand"></i> Antrenman Programı
@@ -968,10 +876,8 @@
                         ${scheduleHTML}
                     </section>
 
-                    <!-- Modern ve Gelişmiş WhatsApp Randevu Formu -->
                     <section class="pt-4 border-t border-gray-100">
                         <div class="bg-white border border-green-100 p-6 sm:p-8 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.06)] relative overflow-hidden">
-                            <!-- Arkaplan Dekorasyonu -->
                             <div class="absolute -right-8 -bottom-8 opacity-[0.03] pointer-events-none">
                                 <i class="fa-brands fa-whatsapp text-[180px] text-green-600"></i>
                             </div>
@@ -987,40 +893,32 @@
                                     </div>
                                 </div>
                                 
-                                <!-- 2'li yapıdan 3'lü yapıya geçiş yapıldı (sm:grid-cols-3) -->
                                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-6">
-                                    <!-- Seans Seçimi (Grid/Sütun Kart Listesi) -->
                                     <div class="sm:col-span-3">
                                         <label class="block text-sm font-semibold text-gray-700 mb-3 flex items-center gap-2">
                                             <i class="fa-solid fa-list-check text-brand"></i> Randevu Seansınızı Seçin
                                         </label>
-                                        <!-- Flex col yerine Grid yapıya geçildi -->
                                         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                                             ${optionsHTML}
                                         </div>
                                     </div>
                                     
-                                    <!-- Cinsiyet Seçimi (Modern Toggle ve Dinamik Kısıtlama) -->
                                     <div>
                                         <label class="block text-sm font-semibold text-gray-700 mb-2">Sporcu Cinsiyeti</label>
                                         <div class="grid grid-cols-2 gap-1.5 bg-gray-50 p-1.5 rounded-xl border border-gray-200 shadow-sm relative">
-                                            <!-- KIZ BUTONU -->
                                             <label class="relative ${canGirl ? 'cursor-pointer' : 'opacity-40 cursor-not-allowed'}">
                                                 <input type="radio" name="gender" value="Kız" class="peer sr-only" ${girlChecked} ${!canGirl ? 'disabled' : ''}>
                                                 <div class="text-center py-2.5 rounded-lg text-sm font-semibold text-gray-500 peer-checked:bg-white peer-checked:text-brand-dark peer-checked:shadow transition-all ${!canGirl ? 'bg-gray-200' : ''}">Kız</div>
                                             </label>
                                             
-                                            <!-- ERKEK BUTONU -->
                                             <label class="relative ${canBoy ? 'cursor-pointer' : 'opacity-40 cursor-not-allowed'}">
                                                 <input type="radio" name="gender" value="Erkek" class="peer sr-only" ${boyChecked} ${!canBoy ? 'disabled' : ''}>
                                                 <div class="text-center py-2.5 rounded-lg text-sm font-semibold text-gray-500 peer-checked:bg-white peer-checked:text-brand-dark peer-checked:shadow transition-all ${!canBoy ? 'bg-gray-200' : ''}">Erkek</div>
                                             </label>
                                         </div>
-                                        <!-- Uyarı Metni -->
                                         ${(!canGirl || !canBoy) ? `<p class="text-[10.5px] text-gray-400 mt-1.5 italic font-medium">* Bu okul sadece ${canGirl ? 'Kız' : 'Erkek'} sporcu kabul etmektedir.</p>` : ''}
                                     </div>
 
-                                    <!-- Yaş Girişi -->
                                     <div>
                                         <label class="block text-sm font-semibold text-gray-700 mb-2">Sporcu Yaşı <span class="text-red-500">*</span></label>
                                         <div class="relative">
@@ -1031,7 +929,6 @@
                                         </div>
                                     </div>
 
-                                    <!-- Spor Geçmişi (Deneyim) -->
                                     <div>
                                         <label class="block text-sm font-semibold text-gray-700 mb-2">Spor Geçmişi</label>
                                         <div class="grid grid-cols-2 gap-1.5 bg-gray-50 p-1.5 rounded-xl border border-gray-200 shadow-sm relative">
@@ -1047,7 +944,6 @@
                                     </div>
                                 </div>
 
-                                <!-- window.openWhatsApp yerine prepareWhatsApp fonksiyonu çağırılıyor. Buton metni de WhatsApp'tan arındırıldı. -->
                                 <button onclick="window.prepareWhatsApp('${safePhone}', '${safeSchoolName}')" class="w-full inline-flex items-center justify-center gap-2 bg-brand hover:bg-brand-dark text-white font-bold text-lg py-4 px-8 rounded-xl shadow-[0_4px_14px_0_rgba(0,119,182,0.39)] hover:shadow-[0_6px_20px_rgba(0,119,182,0.23)] transition-all transform hover:-translate-y-0.5">
                                     <i class="fa-regular fa-calendar-check text-2xl"></i>
                                     Randevu Oluştur
@@ -1061,11 +957,9 @@
             showView('detail');
         }
 
-        // Modal için global değişkenler
         let pendingWpPhone = "";
         let pendingWpMessageBase = "";
 
-        // Randevu Kartını Hazırlayan ve Modalı Açan Fonksiyon (Emojiler Temizlendi)
         window.prepareWhatsApp = function(phone, schoolName) {
             if (!phone || phone.trim() === "") {
                 alert("Bu okul için iletişim numarası bulunamadı.");
@@ -1082,14 +976,12 @@
             
             const experience = document.querySelector('input[name="experience"]:checked').value;
             
-            // Yaş doğrulama
             if (!age || age.trim() === "") {
                 alert("Lütfen sporcunun yaşını giriniz.");
                 ageInputEl.focus();
                 return;
             }
 
-            // Emojisiz, Sorunsuz, Kurumsal ve Temiz Mesaj Şablonu (Ana Gövde)
             let message = `Merhaba, ${schoolName} tanışma antrenmanına katılmak ve bilgi almak istiyorum.\n\n`;
             message += `[ SPORCU BİLGİLERİ ]\n`;
             message += `- Cinsiyet: ${gender}\n`;
@@ -1109,14 +1001,11 @@
                 cleanPhone = '90' + cleanPhone;
             }
 
-            // Global değişkenlere gönderilecek temeli kaydet (Not eklemesi sendWhatsApp fonksiyonunda yapılacak)
             pendingWpPhone = cleanPhone;
             pendingWpMessageBase = message;
             
-            // Ek not kutusunu önceki kullanımdan kalma ihtimaline karşı temizle
             document.getElementById('user-custom-note').value = "";
             
-            // Yeni Modern Randevu Modalını Doldur
             document.getElementById('preview-school-name').innerText = schoolName;
             document.getElementById('preview-gender').innerText = gender;
             document.getElementById('preview-age').innerText = age;
@@ -1129,14 +1018,12 @@
             modal.classList.remove('hidden');
             modal.classList.add('flex');
             
-            // Yumuşak açılış animasyonu
             setTimeout(() => {
                 modalContent.classList.remove('scale-95', 'opacity-0');
                 modalContent.classList.add('scale-100', 'opacity-100');
             }, 10);
         };
 
-        // Modalı Kapatma Fonksiyonu
         window.closeWpModal = function() {
             const modal = document.getElementById('wp-preview-modal');
             const modalContent = document.getElementById('wp-modal-content');
@@ -1150,26 +1037,21 @@
             }, 300);
         };
 
-        // Modal Onaylandığında WhatsApp'ı Açan Fonksiyon
         window.sendWhatsApp = function() {
             if(pendingWpPhone) {
-                // Kullanıcının manuel girdiği notu al
                 const customNote = document.getElementById('user-custom-note').value.trim();
                 let finalMessage = pendingWpMessageBase;
                 
-                // Eğer not girildiyse mesajın sonuna ekle
                 if (customNote !== "") {
                     finalMessage += `\n\n[ EK NOT / SORU ]\n> ${customNote}`;
                 }
 
-                // Nihai linki oluştur ve yönlendir
                 const wpLink = `https://wa.me/${pendingWpPhone}?text=${encodeURIComponent(finalMessage)}`;
                 window.open(wpLink, '_blank');
                 closeWpModal();
             }
         };
 
-        // Sayfa yüklendiğinde sistemi başlat
         document.addEventListener('DOMContentLoaded', initApp);
 
     </script>
