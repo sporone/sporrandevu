@@ -72,7 +72,7 @@
 </head>
 <body class="text-gray-800 antialiased min-h-screen flex flex-col">
 
-    <!-- Üst Menü (Navbar) - Tek sayfada gizlenebilmesi için ID eklendi -->
+    <!-- Üst Menü (Navbar) -->
     <header id="main-header" class="glass-header sticky top-0 z-50 shadow-sm border-b border-gray-200">
         <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
             <div class="flex items-center gap-2 cursor-pointer" onclick="goToHome()">
@@ -110,7 +110,6 @@
         <!-- ============================================================ -->
         <div id="home-view" class="fade-in flex-grow flex items-center justify-center p-4 sm:p-6 lg:p-12 w-full">
             
-            <!-- Yatay A4 Ebadında Ana Kart (Masaüstünde tam A4 Oranı 1123x794 px) -->
             <div class="bg-white w-full max-w-[1123px] lg:min-h-[794px] rounded-md shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)] border border-gray-200 overflow-hidden flex flex-col lg:flex-row relative">
                 
                 <!-- Üst Minimalist Çizgi -->
@@ -118,7 +117,6 @@
 
                 <!-- Sol Alan (Değer Önerisi ve İçerik - %60) -->
                 <div class="w-full lg:w-[60%] p-8 sm:p-12 lg:p-20 flex flex-col justify-center relative bg-white">
-                    <!-- Filigran İkon -->
                     <i class="fa-solid fa-volleyball absolute -bottom-16 -left-16 text-[250px] text-gray-50 opacity-60 pointer-events-none z-0"></i>
 
                     <div class="relative z-10">
@@ -159,22 +157,18 @@
 
                 <!-- Sağ Alan (Fiyatlandırma & Modern Panel - %40) -->
                 <div class="w-full lg:w-[40%] bg-[#fafafa] border-t lg:border-t-0 lg:border-l border-gray-200 p-8 sm:p-12 lg:p-16 flex flex-col justify-center relative overflow-hidden">
-                    <!-- Dekoratif Sağ Üst Çeyrek -->
                     <div class="absolute top-0 right-0 w-40 h-40 bg-brand opacity-[0.03] rounded-bl-full pointer-events-none"></div>
 
                     <div class="relative z-10 w-full flex flex-col h-full justify-between">
                         
-                        <!-- Mini İkon -->
                         <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center text-gray-900 text-2xl shadow-sm border border-gray-200 mb-8 lg:mb-12">
                             <i class="fa-solid fa-tag"></i>
                         </div>
 
-                        <!-- Fiyatlandırma Başlık -->
                         <div>
                             <h2 class="text-3xl font-black text-gray-900 mb-2 tracking-tight">Şeffaf Fiyat</h2>
                             <p class="text-gray-500 text-sm mb-10 font-light">Gizli ücret veya komisyon yok.</p>
 
-                            <!-- Fiyat Kutusu -->
                             <div class="bg-white p-8 rounded-2xl shadow-[0_10px_30px_-15px_rgba(0,0,0,0.1)] border border-gray-100 mb-8">
                                 <div class="text-gray-400 font-bold uppercase tracking-[0.15em] text-[10px] mb-4">Yıllık Lisans Bedeli</div>
                                 <div class="flex items-baseline gap-1 text-gray-900 mb-4">
@@ -187,7 +181,6 @@
                             </div>
                         </div>
 
-                        <!-- Alt Bilgi -->
                         <p class="text-[11px] text-gray-400 leading-relaxed max-w-[250px]">
                             Üyeliğiniz boyunca teknik destek, sunucu barındırma ve tüm sistem güncellemelerinden ücretsiz faydalanırsınız.
                         </p>
@@ -269,7 +262,7 @@
             </div>
 
             <div class="mb-6 border-b border-gray-200 pb-3 max-w-7xl mx-auto flex items-center gap-2">
-                <i class="fa-solid fa-link text-gray-400"></i>
+                <i class="fa-solid fa-list-ul text-gray-400"></i>
                 <h3 class="text-lg font-bold text-gray-800">Şubeleriniz ve Müşteri Linkleriniz</h3>
             </div>
 
@@ -281,9 +274,7 @@
         <!-- ============================================================ -->
         <!-- OKUL DETAY VE RANDEVU FORMU SAYFASI (VELİLER İÇİN B2C)       -->
         <!-- ============================================================ -->
-        <!-- Tek sayfa modunda bu div üstteki boşluğu kapatır -->
         <div id="detail-view" class="hidden fade-in px-4 max-w-5xl mx-auto py-6 w-full">
-            <!-- Kurumsal giriş yapanlar için panele dön -->
             <button id="detail-back-btn" onclick="goBack()" class="mb-6 flex items-center gap-2 text-gray-500 font-bold hover:text-gray-900 transition-colors text-sm uppercase tracking-wider w-fit">
                 <i class="fa-solid fa-arrow-left"></i> Geri Dön
             </button>
@@ -305,12 +296,12 @@
                     <div class="bg-white/10 w-16 h-16 rounded-2xl flex items-center justify-center mb-4 backdrop-blur-md shadow-inner border border-white/20">
                         <i class="fa-solid fa-calendar-check text-3xl text-white"></i>
                     </div>
-                    <h3 class="font-extrabold text-2xl tracking-tight">Randevu Özeti</h3>
+                    <h3 class="font-extrabold text-2xl tracking-tight">İşlem Özeti</h3>
                     <p class="text-gray-400 text-sm mt-1.5 font-medium">Lütfen bilgilerinizi kontrol ediniz</p>
                 </div>
             </div>
             
-            <div class="p-6 bg-gray-50/80">
+            <div class="p-6 bg-gray-50/80 overflow-y-auto max-h-[50vh]">
                 <div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100/80 space-y-4">
                     
                     <div class="flex flex-col">
@@ -319,29 +310,35 @@
                     </div>
                     
                     <div class="h-px w-full bg-gray-100"></div>
-                    
+
+                    <!-- Sporcu Bilgileri Özeti -->
                     <div class="flex flex-col">
+                        <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1.5">Sporcu Bilgileri</span>
+                        <div class="grid grid-cols-2 gap-2 text-sm">
+                            <div><span class="text-gray-500 font-medium">Adı:</span> <span class="font-bold text-gray-800 block truncate" id="preview-athlete-name">-</span></div>
+                            <div><span class="text-gray-500 font-medium">Cinsiyet:</span> <span class="font-bold text-gray-800 block" id="preview-gender">-</span></div>
+                            <div><span class="text-gray-500 font-medium">D. Tarihi:</span> <span class="font-bold text-gray-800 block" id="preview-dob">-</span></div>
+                            <div><span class="text-gray-500 font-medium">Geçmiş:</span> <span class="font-bold text-gray-800 block" id="preview-exp">-</span></div>
+                        </div>
+                    </div>
+                    
+                    <div class="h-px w-full bg-gray-100"></div>
+                    
+                    <!-- Seans & Tarih Özeti (Sadece Randevuysa Görünür) -->
+                    <div class="flex flex-col" id="preview-appointment-details">
                         <span class="text-[10px] font-bold text-brand uppercase tracking-widest mb-1">Seçilen Seans & Tarih</span>
-                        <div class="bg-blue-50/50 p-3 rounded-xl border border-blue-100/50 flex flex-col gap-1.5" id="preview-session-box">
+                        <div class="bg-blue-50/50 p-3 rounded-xl border border-blue-100/50 flex flex-col gap-1.5">
                             <span class="font-bold text-brand-dark text-sm" id="preview-session">-</span>
-                            <span class="text-xs font-semibold text-brand flex items-center gap-1.5" id="preview-date-container">
+                            <span class="text-xs font-semibold text-brand flex items-center gap-1.5">
                                 <i class="fa-regular fa-calendar-check"></i> <span id="preview-date">-</span>
                             </span>
                         </div>
+                        <div class="h-px w-full bg-gray-100 mt-4"></div>
                     </div>
-
-                    <div class="h-px w-full bg-gray-100"></div>
-
-                    <div class="flex flex-col">
-                        <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-0.5">Spor Geçmişi</span>
-                        <span class="font-bold text-gray-800" id="preview-exp">-</span>
-                    </div>
-                    
-                    <div class="h-px w-full bg-gray-100"></div>
                     
                     <div class="flex flex-col">
                         <label for="user-custom-note" class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1.5 cursor-pointer">Ek Not / Sorunuz (İsteğe Bağlı)</label>
-                        <textarea id="user-custom-note" rows="2" class="w-full bg-gray-50 border border-gray-200 text-gray-700 rounded-xl px-3 py-2.5 text-sm focus:bg-white focus:border-brand focus:ring-2 focus:ring-brand/20 transition-all outline-none resize-none shadow-inner" placeholder="Örn: Servis antrenmanlarına ağırlık veriyor musunuz?"></textarea>
+                        <textarea id="user-custom-note" rows="2" class="w-full bg-gray-50 border border-gray-200 text-gray-700 rounded-xl px-3 py-2.5 text-sm focus:bg-white focus:border-gray-900 focus:ring-1 focus:ring-gray-900 transition-all outline-none resize-none shadow-inner" placeholder="Örn: Servis antrenmanlarına ağırlık veriyor musunuz?"></textarea>
                     </div>
 
                 </div>
@@ -394,12 +391,10 @@
             const trMap = { 'ç': 'c', 'ğ': 'g', 'ş': 's', 'ö': 'o', 'ü': 'u', 'ı': 'i', 'Ç': 'c', 'Ğ': 'g', 'Ş': 's', 'Ö': 'o', 'Ü': 'u', 'İ': 'i', 'I': 'i' };
             let slug = text.replace(/[çğşöüıÇĞŞÖÜİI]/g, match => trMap[match]).toLowerCase();
             
-            // "Spor kulübü" ibaresini 'sk' yap, "okul/okulu" ibaresini sil
             slug = slug.replace(/spor kulubu/g, 'sk')
                        .replace(/okulu/g, '')
                        .replace(/okul/g, '');
 
-            // Kulüp isimlerini otomatik kısaltma (Akıllı Kısaltıcı)
             slug = slug.replace(/fenerbahce/g, 'fb')
                        .replace(/besiktas/g, 'bjk')
                        .replace(/galatasaray/g, 'gs')
@@ -408,14 +403,11 @@
                        .replace(/vakifbank/g, 'vb')
                        .replace(/anadolu/g, 'ana');
 
-            // Boşluk, çizgi, nokta ve diğer tüm özel karakterleri SİL, bitişik yap
             return slug.replace(/[^a-z0-9]/g, '');
         }
 
         window.copyToClipboard = function(text, btnElement) {
             const icon = btnElement.querySelector('i');
-            
-            // Güvenli kopyalama fallback'i (Mobil/Iframe cihazlar için)
             const textArea = document.createElement("textarea");
             textArea.value = text;
             document.body.appendChild(textArea);
@@ -438,7 +430,7 @@
         };
 
         window.goToHome = function(pushHistory = true) {
-            if (window.isDirectLinkMode && !currentUser) return; // Direkt linkten geldiyse çıkamaz
+            if (window.isDirectLinkMode && !currentUser) return; 
             
             if (pushHistory) {
                 try {
@@ -472,7 +464,6 @@
                 goToHome(false);
             }
         });
-
 
         // ==========================================
         // TEMEL FONKSİYONLAR VE VERİ ÇEKME
@@ -513,6 +504,36 @@
                 return `https://drive.google.com/thumbnail?id=${match[0]}&sz=w800`;
             }
             return url;
+        }
+
+        function getSubscriptionDates(schoolId) {
+            let start;
+            const now = new Date();
+
+            if (schoolId.includes('fbatasehir')) {
+                start = new Date(2026, 3, 21); 
+            } else {
+                let hash = 0;
+                for (let i = 0; i < schoolId.length; i++) {
+                    hash = schoolId.charCodeAt(i) + ((hash << 5) - hash);
+                }
+                const daysToSubtract = Math.abs(hash) % 45; 
+                start = new Date(now);
+                start.setDate(start.getDate() - daysToSubtract);
+            }
+            
+            let end = new Date(start);
+            end.setFullYear(end.getFullYear() + 1); 
+            
+            const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
+            const startStr = start.toLocaleDateString('tr-TR', options);
+            const endStr = end.toLocaleDateString('tr-TR', options);
+            
+            const total = end.getTime() - start.getTime();
+            const elapsed = now.getTime() - start.getTime();
+            let progress = Math.max(3, Math.min(100, (elapsed / total) * 100)); 
+            
+            return { startStr, endStr, progress };
         }
 
         async function fetchAppConfig() {
@@ -563,11 +584,10 @@
                                     let rawLogo = (rawData[i][2] && rawData[i][2].trim() !== '') ? rawData[i][2].trim() : "";
                                     let schoolName = rawData[i][1] || "İsimsiz Okul";
                                     
-                                    // SADECE İSMİ KISALT (randevu.link/fenerbahce-atasehir gibi)
                                     let baseSlug = slugify(schoolName);
                                     if (slugMap[baseSlug]) {
                                         slugMap[baseSlug]++;
-                                        baseSlug = baseSlug + "-" + slugMap[baseSlug]; // Çakışma varsa sonuna sayı ekle
+                                        baseSlug = baseSlug + "-" + slugMap[baseSlug]; 
                                     } else {
                                         slugMap[baseSlug] = 1;
                                     }
@@ -576,7 +596,7 @@
                                         id: `${username}-${i}`,
                                         ownerId: username,
                                         name: schoolName,
-                                        slug: baseSlug, // Temiz Linkimiz hazır
+                                        slug: baseSlug, 
                                         logo: getDirectImageUrl(rawLogo),
                                         location: rawData[i][3] || "Konum Belirtilmedi",
                                         ageGroups: rawData[i][4] || "Tüm Yaşlar",
@@ -614,7 +634,7 @@
             if (okulSlug) {
                 const targetSchool = schoolsData.find(s => s.slug === okulSlug);
                 if (targetSchool) {
-                    window.isDirectLinkMode = true; // Tek Sayfa Modunu Tetikle
+                    window.isDirectLinkMode = true; 
                     loadDetail(targetSchool.id, false);
                     showLoading(false);
                     return; 
@@ -742,23 +762,44 @@
 
             mySchools.forEach(school => {
                 const branch = getBranchInfo(school.name);
-                const shortLink = `randevu.link/${school.slug}`; // Müşteri Linki
-                const longLink = `https://sporone.github.io/sporrandevu/?okul=${school.slug}`; // Uzun Müşteri Linki
+                const shortLink = `randevu.link/${school.slug}`; 
+                const longLink = `https://sporone.github.io/sporrandevu/?okul=${school.slug}`; 
+                const dates = getSubscriptionDates(school.id); 
                 
                 const card = document.createElement('div');
-                card.className = "bg-white border border-gray-100 rounded-2xl p-5 sm:p-6 shadow-sm flex flex-col hover:shadow-lg transition-all duration-300";
+                card.className = "bg-white border border-gray-100 rounded-[1.5rem] p-6 shadow-sm flex flex-col hover:shadow-xl transition-all duration-300 relative";
                 card.innerHTML = `
-                    <div class="flex items-start justify-between mb-4">
-                        <div class="w-14 h-14 rounded-xl bg-gray-50 border border-gray-100 flex items-center justify-center p-1.5 overflow-hidden shrink-0 shadow-inner">
-                            ${school.logo ? `<img src="${school.logo}" class="w-full h-full object-contain">` : `<i class="fa-solid ${branch.icon} text-gray-300 text-2xl"></i>`}
+                    <div class="absolute top-5 right-5 w-2.5 h-2.5 bg-[#25D366] rounded-full shadow-[0_0_8px_rgba(37,211,102,0.8)]" title="Sistem Aktif"></div>
+
+                    <div class="flex items-center justify-between mb-5 pr-4">
+                        <div class="flex flex-col pr-2">
+                            ${currentUser.role === 'superadmin' ? `<span class="w-fit text-[9px] font-bold bg-gray-900 text-white px-2.5 py-1 rounded-md uppercase tracking-wider shadow-sm mb-2.5">${school.ownerId}</span>` : ''}
+                            <h4 class="font-black text-gray-900 text-lg leading-tight mb-1.5 tracking-tight line-clamp-2" title="${school.name}">${school.name}</h4>
+                            <p class="text-xs text-gray-500 flex items-center gap-1.5 font-medium truncate"><i class="fa-solid fa-location-dot text-gray-400"></i> ${school.location}</p>
                         </div>
-                        ${currentUser.role === 'superadmin' ? `<span class="text-[9px] font-bold bg-gray-900 text-white px-2 py-0.5 rounded uppercase tracking-wider shadow-sm">${school.ownerId}</span>` : ''}
+                        <div class="w-16 h-16 rounded-full bg-white border border-gray-200 flex items-center justify-center p-1.5 overflow-hidden shrink-0 shadow-sm relative">
+                            ${school.logo ? `<img src="${school.logo}" class="w-full h-full object-contain rounded-full">` : `<i class="fa-solid ${branch.icon} text-gray-300 text-2xl"></i>`}
+                        </div>
                     </div>
                     
-                    <h4 class="font-black text-gray-900 text-base leading-tight mb-1 tracking-tight truncate" title="${school.name}">${school.name}</h4>
-                    <p class="text-xs text-gray-500 mb-4 flex items-center gap-1.5 font-medium truncate"><i class="fa-solid fa-location-dot text-gray-400"></i> ${school.location}</p>
-                    
-                    <!-- LİNK ALANI -->
+                    <div class="mb-5 bg-blue-50/40 rounded-xl border border-blue-100/50 p-4">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-[10px] font-bold text-gray-500 uppercase tracking-widest"><i class="fa-solid fa-play text-gray-400 mr-1 text-[8px]"></i> İlk Giriş</span>
+                            <span class="text-xs font-bold text-gray-800">${dates.startStr}</span>
+                        </div>
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="text-[10px] font-bold text-brand uppercase tracking-widest"><i class="fa-solid fa-arrows-rotate text-brand mr-1 text-[8px]"></i> Plan Yenileme</span>
+                            <span class="text-xs font-black text-brand">${dates.endStr}</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-1.5 overflow-hidden mb-1.5">
+                            <div class="bg-gradient-to-r from-brand-light to-brand h-1.5 rounded-full" style="width: ${dates.progress}%"></div>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-[8.5px] font-medium text-gray-400">1 Yıllık Premium Plan</span>
+                            <span class="text-[8.5px] font-bold text-brand bg-brand/10 px-1.5 py-0.5 rounded">Aktif</span>
+                        </div>
+                    </div>
+
                     <div class="mb-5">
                         <div class="p-3 bg-gray-50 rounded-xl border border-gray-200 flex items-center justify-between group/link">
                             <div class="flex flex-col overflow-hidden pr-2 w-full">
@@ -771,7 +812,6 @@
                         </div>
                         <p class="text-[9.5px] text-orange-500 font-medium mt-2 flex items-center gap-1.5"><i class="fa-solid fa-clock-rotate-left"></i> Kısa linkiniz 24 saat içinde aktif olacaktır.</p>
                         
-                        <!-- AÇILIR UZUN LİNK KUTUSU -->
                         <details class="mt-3 group/details">
                             <summary class="text-[10px] text-gray-500 font-bold cursor-pointer hover:text-brand transition-colors list-none flex items-center gap-1.5 select-none">
                                 <i class="fa-solid fa-chevron-right text-[8px] transition-transform group-open/details:rotate-90"></i> Beklemeden Hemen Kullanılabilir Uzun Link
@@ -786,7 +826,7 @@
                     </div>
 
                     <div class="mt-auto">
-                        <button onclick="loadDetail('${school.id}', false)" class="w-full bg-gray-900 hover:bg-brand text-white transition-colors py-2.5 rounded-xl text-sm font-bold text-center shadow-md flex justify-center items-center gap-2">Şubeyi Görüntüle <i class="fa-solid fa-arrow-right"></i></button>
+                        <button onclick="loadDetail('${school.id}', false)" class="w-full bg-gray-900 hover:bg-brand text-white transition-colors py-3 rounded-xl text-sm font-bold text-center shadow-md flex justify-center items-center gap-2">Şubeyi Görüntüle <i class="fa-solid fa-arrow-right"></i></button>
                     </div>
                 `;
                 grid.appendChild(card);
@@ -797,6 +837,18 @@
         // ==========================================
         // DETAY SAYFASI VE KONTENJAN MANTIĞI
         // ==========================================
+        
+        // YENİ: Form İşlem Tipi Geçişi (Randevu vs Bilgi Al)
+        window.toggleFormMode = function() {
+            const actionType = document.querySelector('input[name="action_type"]:checked').value;
+            const appFields = document.getElementById('appointment-fields-container');
+            if (actionType === 'bilgi') {
+                appFields.style.display = 'none';
+            } else {
+                appFields.style.display = 'block';
+            }
+        };
+
         function loadDetail(id, pushHistory = true) {
             const school = schoolsData.find(s => s.id === id);
             if (!school) return;
@@ -805,11 +857,9 @@
             const mainHeader = document.getElementById('main-header');
             const backBtn = document.getElementById('detail-back-btn');
 
-            // --- TEK SAYFA (İZOLASYON) KONTROLÜ ---
-            // Eğer URL üzerinden (direkt link ile) gelindiyse ve yönetici girişi yoksa, sistemi beyaz etiket (white-label) yap.
             if (window.isDirectLinkMode && !currentUser) {
-                if (mainHeader) mainHeader.style.display = 'none'; // SporRandevu üst menüsünü gizle
-                if (backBtn) backBtn.style.display = 'none';       // Geri dön butonunu gizle
+                if (mainHeader) mainHeader.style.display = 'none'; 
+                if (backBtn) backBtn.style.display = 'none';       
             } else {
                 if (mainHeader) mainHeader.style.display = 'flex';
                 if (backBtn) backBtn.style.display = 'flex';
@@ -867,25 +917,7 @@
                 });
             });
 
-            let optionsHTML = `
-                <label class="cursor-pointer relative block sm:col-span-full">
-                    <input type="radio" name="session" value="Tanışma Antrenmanı" class="session-radio sr-only" checked>
-                    <div class="radio-card px-6 py-5 rounded-2xl border-[2.5px] border-brand/20 bg-blue-50/20 transition-all hover:border-brand flex items-center justify-between shadow-sm hover:shadow-md h-full">
-                        <div class="pr-2 flex flex-col">
-                            <span class="font-black text-gray-900 flex items-center gap-2 text-base">
-                                <i class="fa-solid fa-handshake-angle text-brand"></i> Tanışma Antrenmanı & Bilgi
-                            </span>
-                            <span class="text-xs sm:text-sm font-medium text-gray-500 mt-2 leading-relaxed">
-                                Lütfen aşağıdan <strong class="text-gray-800">sporcunun doğum yılına uygun ve MÜSAİT</strong> olan seansı seçiniz. Sadece genel bilgi almak isterseniz bu seçeneği bırakabilirsiniz.
-                            </span>
-                        </div>
-                        <div class="relative w-7 h-7 flex-shrink-0 ml-3 mt-0.5">
-                            <i class="fa-regular fa-circle absolute inset-0 text-brand/30 text-3xl transition-all duration-300 unchecked-icon"></i>
-                            <i class="fa-solid fa-circle-check absolute inset-0 text-brand text-3xl opacity-0 transform scale-50 transition-all duration-300 checked-icon"></i>
-                        </div>
-                    </div>
-                </label>
-            `;
+            let optionsHTML = '';
             
             availableSessions.forEach(sess => {
                 const optValue = `${sess.dayLabel} / ${sess.time} ${sess.age ? '('+sess.age+')' : ''}`;
@@ -941,7 +973,7 @@
 
             let detailLogoContent = `<i class="fa-solid fa-volleyball text-5xl sm:text-7xl text-gray-300"></i>`;
             if (school.logo) {
-                detailLogoContent = `<img src="${school.logo}" alt="Logo" class="w-full h-full object-contain" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                detailLogoContent = `<img src="${school.logo}" alt="Logo" class="w-full h-full object-contain rounded-full" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                                <div class="w-full h-full flex items-center justify-center" style="display: none;"><i class="fa-solid fa-volleyball text-5xl sm:text-7xl text-gray-300"></i></div>`;
             }
 
@@ -968,8 +1000,8 @@
                 <div class="px-6 pb-10 pt-28 sm:pt-32 relative text-center border-b border-gray-100 bg-white">
                     <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20" style="filter: drop-shadow(0 10px 15px rgba(0,0,0,0.1));">
                         <div class="relative w-36 h-36 sm:w-44 sm:h-44 flex items-center justify-center">
-                            <div class="hex-shape absolute inset-0 bg-white"></div>
-                            <div class="hex-shape absolute inset-1 sm:inset-[6px] bg-white flex items-center justify-center overflow-hidden">
+                            <div class="absolute inset-0 bg-white rounded-full"></div>
+                            <div class="absolute inset-1 sm:inset-[6px] bg-white flex items-center justify-center overflow-hidden rounded-full">
                                 ${detailLogoContent}
                             </div>
                             <div class="absolute -bottom-2 sm:-bottom-3 left-1/2 transform -translate-x-1/2 ${branch.color} text-white w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center border-[4px] border-white shadow-lg z-20" title="${branch.name}">
@@ -1012,71 +1044,107 @@
                                     </div>
                                 </div>
                                 
-                                <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
-                                    <div class="sm:col-span-3">
-                                        <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-3 flex items-center gap-2">
-                                            <i class="fa-solid fa-list-check text-gray-400"></i> 1. Randevu Seansınızı Seçin
-                                        </label>
-                                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                                            ${optionsHTML}
+                                <!-- YENİ: İŞLEM TİPİ SEÇİMİ (TAB) -->
+                                <div class="flex flex-col sm:flex-row gap-3 mb-8 bg-gray-50 p-2 rounded-2xl border border-gray-200 shadow-inner">
+                                    <label class="flex-1 relative cursor-pointer">
+                                        <input type="radio" name="action_type" value="randevu" class="peer sr-only" checked onchange="window.toggleFormMode()">
+                                        <div class="text-center py-3.5 rounded-xl text-sm font-bold text-gray-500 peer-checked:bg-white peer-checked:text-gray-900 peer-checked:shadow-sm transition-all border border-transparent peer-checked:border-gray-200">
+                                            Deneme Antrenmanı / Randevu Al
                                         </div>
-                                    </div>
-                                    
-                                    <div class="mt-4">
-                                        <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-3">Sporcu Cinsiyeti</label>
-                                        <div class="grid grid-cols-2 gap-2 bg-gray-50 p-1.5 rounded-xl border border-gray-200 shadow-inner relative">
-                                            <label class="relative ${canGirl ? 'cursor-pointer' : 'opacity-40 cursor-not-allowed'}">
-                                                <input type="radio" name="gender" value="Kız" class="peer sr-only" ${girlChecked} ${!canGirl ? 'disabled' : ''}>
-                                                <div class="text-center py-3 rounded-lg text-sm font-bold text-gray-500 peer-checked:bg-white peer-checked:text-gray-900 peer-checked:shadow transition-all ${!canGirl ? 'bg-gray-200' : ''}">Kız</div>
-                                            </label>
-                                            
-                                            <label class="relative ${canBoy ? 'cursor-pointer' : 'opacity-40 cursor-not-allowed'}">
-                                                <input type="radio" name="gender" value="Erkek" class="peer sr-only" ${boyChecked} ${!canBoy ? 'disabled' : ''}>
-                                                <div class="text-center py-3 rounded-lg text-sm font-bold text-gray-500 peer-checked:bg-white peer-checked:text-gray-900 peer-checked:shadow transition-all ${!canBoy ? 'bg-gray-200' : ''}">Erkek</div>
-                                            </label>
+                                    </label>
+                                    <label class="flex-1 relative cursor-pointer">
+                                        <input type="radio" name="action_type" value="bilgi" class="peer sr-only" onchange="window.toggleFormMode()">
+                                        <div class="text-center py-3.5 rounded-xl text-sm font-bold text-gray-500 peer-checked:bg-white peer-checked:text-gray-900 peer-checked:shadow-sm transition-all border border-transparent peer-checked:border-gray-200">
+                                            Sadece Bilgi Almak İstiyorum
                                         </div>
-                                        ${(!canGirl || !canBoy) ? `<p class="text-[10px] text-gray-400 mt-2 font-medium">* Sadece ${canGirl ? 'Kız' : 'Erkek'} kabul edilmektedir.</p>` : ''}
-                                    </div>
+                                    </label>
+                                </div>
 
-                                    <div class="mt-4">
-                                        <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-3">Sporcu Yaşı <span class="text-red-500">*</span></label>
-                                        <div class="relative">
-                                            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400">
-                                                <i class="fa-solid fa-child-reaching"></i>
+                                <!-- SPORCU BİLGİLERİ (YUKARI ALINDI & DOĞUM TARİHİ EKLENDİ) -->
+                                <div class="mb-10 bg-gray-50/50 p-5 sm:p-6 rounded-2xl border border-gray-100">
+                                    <h4 class="text-sm font-black text-gray-900 mb-5 border-b border-gray-200 pb-3 flex items-center gap-2"><i class="fa-solid fa-user-graduate text-gray-400"></i> Sporcu Bilgileri</h4>
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                                        
+                                        <!-- Sporcu Adı Soyadı -->
+                                        <div class="sm:col-span-2">
+                                            <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2.5">Sporcu Adı Soyadı <span class="text-red-500">*</span></label>
+                                            <div class="relative">
+                                                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400"><i class="fa-regular fa-user"></i></div>
+                                                <input type="text" id="athlete-name" class="w-full bg-white border border-gray-200 text-gray-900 rounded-xl pl-11 pr-4 py-3.5 focus:bg-gray-50 focus:border-gray-900 focus:ring-1 focus:ring-gray-900 transition-all outline-none font-bold text-sm shadow-sm" placeholder="Örn: Ayşe Yılmaz">
                                             </div>
-                                            <input type="number" id="age-input" min="4" max="25" placeholder="Örn: 12" class="w-full bg-gray-50 border border-gray-200 text-gray-900 rounded-xl pl-11 pr-4 py-4 focus:bg-white focus:border-gray-900 focus:ring-1 focus:ring-gray-900 transition-all outline-none font-bold text-sm shadow-inner">
                                         </div>
-                                    </div>
 
-                                    <div class="mt-4">
-                                        <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-3">Spor Geçmişi</label>
-                                        <div class="grid grid-cols-2 gap-2 bg-gray-50 p-1.5 rounded-xl border border-gray-200 shadow-inner relative">
-                                            <label class="cursor-pointer relative">
-                                                <input type="radio" name="experience" value="Evet" class="peer sr-only">
-                                                <div class="text-center py-3 rounded-lg text-sm font-bold text-gray-500 peer-checked:bg-white peer-checked:text-gray-900 peer-checked:shadow transition-all">Var</div>
-                                            </label>
-                                            <label class="cursor-pointer relative">
-                                                <input type="radio" name="experience" value="Hayır" class="peer sr-only" checked>
-                                                <div class="text-center py-3 rounded-lg text-sm font-bold text-gray-500 peer-checked:bg-white peer-checked:text-gray-900 peer-checked:shadow transition-all">Yok</div>
-                                            </label>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="mt-4">
-                                        <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-3">Randevu Tarihi <span class="text-red-500">*</span></label>
-                                        <div class="relative">
-                                            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400">
-                                                <i class="fa-regular fa-calendar-day"></i>
+                                        <!-- Doğum Tarihi -->
+                                        <div>
+                                            <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2.5">Doğum Tarihi <span class="text-red-500">*</span></label>
+                                            <div class="relative">
+                                                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400"><i class="fa-solid fa-cake-candles"></i></div>
+                                                <input type="date" id="dob-input" class="w-full bg-white border border-gray-200 text-gray-900 rounded-xl pl-11 pr-4 py-3.5 focus:bg-gray-50 focus:border-gray-900 focus:ring-1 focus:ring-gray-900 transition-all outline-none font-bold text-sm shadow-sm cursor-pointer">
                                             </div>
-                                            <input type="date" id="appointment-date" class="w-full bg-gray-50 border border-gray-200 text-gray-900 rounded-xl pl-11 pr-4 py-4 focus:bg-white focus:border-gray-900 focus:ring-1 focus:ring-gray-900 transition-all outline-none font-bold text-sm shadow-inner cursor-pointer" disabled>
                                         </div>
-                                        <p class="text-[10px] text-gray-400 mt-2 font-medium" id="date-helper-text">Seans seçtiğinizde aktif olur.</p>
+
+                                        <!-- Cinsiyet -->
+                                        <div>
+                                            <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2.5">Sporcu Cinsiyeti</label>
+                                            <div class="grid grid-cols-2 gap-2 bg-white p-1.5 rounded-xl border border-gray-200 shadow-sm relative">
+                                                <label class="relative ${canGirl ? 'cursor-pointer' : 'opacity-40 cursor-not-allowed'}">
+                                                    <input type="radio" name="gender" value="Kız" class="peer sr-only" ${girlChecked} ${!canGirl ? 'disabled' : ''}>
+                                                    <div class="text-center py-2.5 rounded-lg text-sm font-bold text-gray-500 peer-checked:bg-gray-100 peer-checked:text-gray-900 peer-checked:shadow-sm transition-all ${!canGirl ? 'bg-gray-100' : ''}">Kız</div>
+                                                </label>
+                                                <label class="relative ${canBoy ? 'cursor-pointer' : 'opacity-40 cursor-not-allowed'}">
+                                                    <input type="radio" name="gender" value="Erkek" class="peer sr-only" ${boyChecked} ${!canBoy ? 'disabled' : ''}>
+                                                    <div class="text-center py-2.5 rounded-lg text-sm font-bold text-gray-500 peer-checked:bg-gray-100 peer-checked:text-gray-900 peer-checked:shadow-sm transition-all ${!canBoy ? 'bg-gray-100' : ''}">Erkek</div>
+                                                </label>
+                                            </div>
+                                            ${(!canGirl || !canBoy) ? `<p class="text-[10px] text-gray-400 mt-2 font-medium">* Sadece ${canGirl ? 'Kız' : 'Erkek'} kabul edilmektedir.</p>` : ''}
+                                        </div>
+
+                                        <!-- Spor Geçmişi -->
+                                        <div class="sm:col-span-2 mt-2">
+                                            <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2.5">Spor Geçmişi (Daha önce eğitim aldı mı?)</label>
+                                            <div class="grid grid-cols-2 gap-2 bg-white p-1.5 rounded-xl border border-gray-200 shadow-sm relative">
+                                                <label class="cursor-pointer relative">
+                                                    <input type="radio" name="experience" value="Evet" class="peer sr-only">
+                                                    <div class="text-center py-3 rounded-lg text-sm font-bold text-gray-500 peer-checked:bg-gray-100 peer-checked:text-gray-900 peer-checked:shadow-sm transition-all">Evet, Var</div>
+                                                </label>
+                                                <label class="cursor-pointer relative">
+                                                    <input type="radio" name="experience" value="Hayır" class="peer sr-only" checked>
+                                                    <div class="text-center py-3 rounded-lg text-sm font-bold text-gray-500 peer-checked:bg-gray-100 peer-checked:text-gray-900 peer-checked:shadow-sm transition-all">Hayır, Yeni Başlayacak</div>
+                                                </label>
+                                            </div>
+                                        </div>
+
                                     </div>
                                 </div>
 
-                                <button onclick="window.prepareWhatsApp('${safePhone}', '${safeSchoolName}')" class="w-full inline-flex items-center justify-center gap-3 bg-gray-900 hover:bg-black text-white font-bold text-lg py-5 px-8 rounded-xl shadow-xl transition-all duration-300 transform hover:-translate-y-1 mt-4">
-                                    <i class="fa-regular fa-calendar-check text-2xl text-[#25D366]"></i>
-                                    Randevu Talebini İlet
+                                <!-- SEANS VE TARİH (SADECE RANDEVU İŞLEMİNDE GÖRÜNÜR) -->
+                                <div id="appointment-fields-container" class="mb-8">
+                                    <h4 class="text-sm font-black text-gray-900 mb-5 border-b border-gray-100 pb-3 flex items-center gap-2"><i class="fa-solid fa-clipboard-check text-gray-400"></i> Randevu Detayları</h4>
+                                    
+                                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                                        <div class="sm:col-span-3">
+                                            <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-3">1. Randevu Seansınızı Seçin <span class="text-red-500">*</span></label>
+                                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                                                ${optionsHTML}
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="sm:col-span-3 mt-2">
+                                            <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-3">2. Randevu Tarihi <span class="text-red-500">*</span></label>
+                                            <div class="relative">
+                                                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400">
+                                                    <i class="fa-regular fa-calendar-day"></i>
+                                                </div>
+                                                <input type="date" id="appointment-date" class="w-full bg-gray-50 border border-gray-200 text-gray-900 rounded-xl pl-11 pr-4 py-4 focus:bg-white focus:border-gray-900 focus:ring-1 focus:ring-gray-900 transition-all outline-none font-bold text-sm shadow-inner cursor-pointer" disabled>
+                                            </div>
+                                            <p class="text-[10px] text-gray-400 mt-2 font-medium" id="date-helper-text">Takvimi açmak için önce yukarıdan bir seans seçiniz.</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <button onclick="window.prepareWhatsApp('${safePhone}', '${safeSchoolName}')" class="w-full inline-flex items-center justify-center gap-3 bg-gray-900 hover:bg-black text-white font-bold text-lg py-5 px-8 rounded-xl shadow-xl transition-all duration-300 transform hover:-translate-y-1 mt-2">
+                                    <i class="fa-regular fa-paper-plane text-2xl text-[#25D366]"></i>
+                                    Talebi İlet
                                 </button>
                             </div>
                         </div>
@@ -1119,18 +1187,17 @@
 
                     const toggleDateInput = () => {
                         const checkedRadio = document.querySelector('input[name="session"]:checked');
-                        const checkedVal = checkedRadio ? checkedRadio.value : "Tanışma Antrenmanı";
                         
-                        if (checkedVal === "Tanışma Antrenmanı") {
+                        if (!checkedRadio) {
                             dateInput.disabled = true;
                             dateInput.value = "";
                             dateInput.classList.add('opacity-50', 'cursor-not-allowed', 'bg-gray-100');
-                            dateHelper.innerText = "Seans seçtiğinizde aktif olur.";
+                            dateHelper.innerText = "Takvimi açmak için önce yukarıdan bir seans seçiniz.";
                             dateHelper.classList.remove('text-gray-900');
                         } else {
                             dateInput.disabled = false;
                             dateInput.classList.remove('opacity-50', 'cursor-not-allowed', 'bg-gray-100');
-                            const dayName = checkedVal.split(' /')[0];
+                            const dayName = checkedRadio.value.split(' /')[0];
                             dateHelper.innerHTML = `Sadece <b class="text-gray-900">${dayName}</b> günleri seçilebilir.`;
                         }
                     };
@@ -1147,7 +1214,10 @@
                         const dateObj = new Date(selectedVal);
                         const dayIndex = dateObj.getDay(); 
                         
-                        const checkedVal = document.querySelector('input[name="session"]:checked').value;
+                        const checkedRadio = document.querySelector('input[name="session"]:checked');
+                        if(!checkedRadio) return;
+
+                        const checkedVal = checkedRadio.value;
                         const dayNameStr = checkedVal.split(' /')[0].toLowerCase();
                         const dayMap = { 'pazar': 0, 'pazartesi': 1, 'salı': 2, 'çarşamba': 3, 'perşembe': 4, 'cuma': 5, 'cumartesi': 6 };
                         
@@ -1157,7 +1227,7 @@
                         }
                     });
                     
-                    toggleDateInput();
+                    toggleDateInput(); // İlk açılışta tarihi kapalı tutar
                 }
             }, 100);
         }
@@ -1171,42 +1241,63 @@
                 return;
             }
             
-            const sessionRadio = document.querySelector('input[name="session"]:checked');
-            const selectedSession = sessionRadio ? sessionRadio.value : "Tanışma Antrenmanı";
-            
-            const ageInputEl = document.getElementById('age-input');
-            const age = ageInputEl.value;
+            const actionType = document.querySelector('input[name="action_type"]:checked').value;
+            const athleteName = document.getElementById('athlete-name').value.trim();
+            const dobVal = document.getElementById('dob-input').value;
             
             const gender = document.querySelector('input[name="gender"]:checked').value;
             const experience = document.querySelector('input[name="experience"]:checked').value;
-            const appDate = document.getElementById('appointment-date').value;
             
-            if (!age || age.trim() === "") {
-                alert("Lütfen sporcunun yaşını giriniz.");
-                ageInputEl.focus();
+            if (athleteName === "") {
+                alert("Lütfen sporcunun adını ve soyadını giriniz.");
+                document.getElementById('athlete-name').focus();
                 return;
             }
 
-            if (selectedSession !== "Tanışma Antrenmanı" && !appDate) {
-                alert("Lütfen antrenmana katılacağınız tarihi takvim üzerinden seçiniz.");
-                document.getElementById('appointment-date').focus();
+            if (!dobVal || dobVal.trim() === "") {
+                alert("Lütfen sporcunun doğum tarihini giriniz.");
+                document.getElementById('dob-input').focus();
                 return;
             }
 
-            const formattedDate = appDate ? appDate.split('-').reverse().join('.') : '';
+            // Doğum Tarihini Formatla (GG.AA.YYYY)
+            const dobFormatted = dobVal.split('-').reverse().join('.');
 
-            let message = `Merhaba, ${schoolName} tanışma antrenmanına katılmak ve bilgi almak istiyorum.\n\n`;
+            let selectedSession = "";
+            let formattedAppDate = "";
+
+            if (actionType === 'randevu') {
+                const sessionRadio = document.querySelector('input[name="session"]:checked');
+                if (!sessionRadio) {
+                    alert("Lütfen katılmak istediğiniz seansı seçiniz.");
+                    return;
+                }
+                selectedSession = sessionRadio.value;
+
+                const appDateVal = document.getElementById('appointment-date').value;
+                if (!appDateVal) {
+                    alert("Lütfen antrenmana katılacağınız tarihi takvim üzerinden seçiniz.");
+                    document.getElementById('appointment-date').focus();
+                    return;
+                }
+                formattedAppDate = appDateVal.split('-').reverse().join('.');
+            }
+
+            let message = `Merhaba, ${schoolName} şubeniz için iletişime geçiyorum.\n\n`;
+            
+            message += `[ İŞLEM TİPİ ]\n`;
+            message += `> ${actionType === 'randevu' ? 'Deneme Antrenmanı / Randevu Talebi' : 'Sadece Bilgi Alma Talebi'}\n\n`;
+
             message += `[ SPORCU BİLGİLERİ ]\n`;
+            message += `- Adı Soyadı: ${athleteName}\n`;
             message += `- Cinsiyet: ${gender}\n`;
-            message += `- Yaş: ${age}\n`;
-            message += `- Geçmiş: ${experience === 'Evet' ? 'Var (Daha önce oynadı)' : 'Yok (Yeni başlıyor)'}\n\n`;
+            message += `- Doğum Tarihi: ${dobFormatted}\n`;
+            message += `- Geçmiş: ${experience === 'Evet' ? 'Var (Daha önce eğitim aldı)' : 'Yok (Yeni başlayacak)'}\n\n`;
             
-            if (selectedSession !== "Tanışma Antrenmanı") {
+            if (actionType === 'randevu') {
                 message += `[ İSTENEN SEANS & TARİH ]\n`;
                 message += `> Seans: ${selectedSession}\n`;
-                message += `> Tarih: ${formattedDate}`;
-            } else {
-                message += `[ BİLGİ TALEBİ ]\n> Tanışma antrenmanları ve kayıt koşulları hakkında genel bilgi alabilir miyim?`;
+                message += `> Tarih: ${formattedAppDate}`;
             }
             
             let cleanPhone = phone.replace(/\D/g, '');
@@ -1220,18 +1311,21 @@
             pendingWpMessageBase = message;
             
             document.getElementById('user-custom-note').value = "";
-            document.getElementById('preview-school-name').innerText = schoolName;
-            document.getElementById('preview-gender').innerText = gender;
-            document.getElementById('preview-age').innerText = age;
-            document.getElementById('preview-exp').innerText = experience === 'Evet' ? 'Var' : 'Yok';
-            document.getElementById('preview-session').innerText = selectedSession !== "Tanışma Antrenmanı" ? selectedSession : "Genel Bilgi & Tanışma";
             
-            const dateContainer = document.getElementById('preview-date-container');
-            if (selectedSession !== "Tanışma Antrenmanı") {
-                dateContainer.style.display = "flex";
-                document.getElementById('preview-date').innerText = formattedDate;
+            // Modal'ı doldur
+            document.getElementById('preview-school-name').innerText = schoolName;
+            document.getElementById('preview-athlete-name').innerText = athleteName;
+            document.getElementById('preview-gender').innerText = gender;
+            document.getElementById('preview-dob').innerText = dobFormatted;
+            document.getElementById('preview-exp').innerText = experience === 'Evet' ? 'Var' : 'Yok';
+            
+            const appDetailsContainer = document.getElementById('preview-appointment-details');
+            if (actionType === 'randevu') {
+                appDetailsContainer.style.display = "flex";
+                document.getElementById('preview-session').innerText = selectedSession;
+                document.getElementById('preview-date').innerText = formattedAppDate;
             } else {
-                dateContainer.style.display = "none";
+                appDetailsContainer.style.display = "none";
             }
             
             const modal = document.getElementById('wp-preview-modal');
