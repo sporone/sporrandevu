@@ -74,7 +74,7 @@
 
     <!-- Üst Menü (Navbar) -->
     <header id="main-header" class="glass-header sticky top-0 z-50 shadow-sm border-b border-gray-200">
-        <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+        <div class="max-w-[1440px] mx-auto w-full px-6 py-4 flex justify-between items-center">
             <div class="flex items-center gap-2 cursor-pointer" onclick="goToHome()">
                 <div class="bg-brand text-white p-2 rounded-lg">
                     <i class="fa-solid fa-volleyball"></i>
@@ -106,82 +106,90 @@
         </div>
 
         <!-- ============================================================ -->
-        <!-- YATAY A4 MİNİMALİST TANITIM SAYFASI (LANDING PAGE)           -->
+        <!-- TAM EKRAN MİNİMALİST TANITIM SAYFASI (LANDING PAGE)          -->
         <!-- ============================================================ -->
-        <div id="home-view" class="fade-in flex-grow flex items-center justify-center p-4 sm:p-6 lg:p-12 w-full">
+        <div id="home-view" class="fade-in flex-grow flex w-full">
             
-            <div class="bg-white w-full max-w-[1123px] lg:min-h-[794px] rounded-md shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)] border border-gray-200 overflow-hidden flex flex-col lg:flex-row relative">
+            <div class="bg-white w-full min-h-[calc(100vh-76px)] overflow-hidden flex flex-col lg:flex-row relative">
                 
                 <!-- Üst Minimalist Çizgi -->
                 <div class="absolute top-0 left-0 w-full h-1.5 bg-gray-900 z-20"></div>
 
-                <!-- Sol Alan (Değer Önerisi ve İçerik - %60) -->
-                <div class="w-full lg:w-[60%] p-8 sm:p-12 lg:p-20 flex flex-col justify-center relative bg-white">
+                <!-- Sol Alan (Değer Önerisi ve İçerik - %65) -->
+                <div class="w-full lg:w-[65%] px-8 py-16 sm:px-16 lg:px-24 flex flex-col justify-center relative bg-white">
                     <i class="fa-solid fa-volleyball absolute -bottom-16 -left-16 text-[250px] text-gray-50 opacity-60 pointer-events-none z-0"></i>
 
-                    <div class="relative z-10">
-                        <span class="text-brand font-bold tracking-[0.2em] text-[10px] sm:text-xs uppercase mb-4 block">B2B SaaS Spor Yazılımı</span>
+                    <div class="relative z-10 flex-grow flex flex-col justify-center">
+                        <span class="text-brand font-bold tracking-[0.2em] text-[10px] sm:text-xs uppercase mb-4 block mt-8 lg:mt-0">B2B SaaS Spor Yazılımı</span>
                         
-                        <h1 class="text-4xl sm:text-5xl lg:text-[4rem] font-black text-gray-900 leading-[1.05] mb-6 tracking-tighter">
+                        <h1 class="text-4xl sm:text-5xl lg:text-[4.5rem] font-black text-gray-900 leading-[1.05] mb-8 tracking-tighter">
                             Kayıt Sürecini<br>
                             <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand to-[#0096c7]">Dijitalleştirin.</span>
                         </h1>
                         
-                        <p class="text-gray-500 text-base sm:text-lg max-w-md mb-10 leading-relaxed font-light">
+                        <p class="text-gray-500 text-base sm:text-xl max-w-xl mb-12 leading-relaxed font-light">
                             Karmaşık mesajlaşmalara ve manuel Excel listelerine son verin. Velileriniz saniyeler içinde ön kayıt oluştursun, tüm randevularınız otomatik düzenlensin.
                         </p>
 
                         <!-- Minimalist Özellik Listesi -->
-                        <div class="space-y-5 mb-12">
+                        <div class="space-y-6 mb-16">
                             <div class="flex items-center gap-4 text-gray-800">
-                                <div class="w-7 h-7 rounded bg-gray-100 text-gray-900 flex items-center justify-center shrink-0 border border-gray-200"><i class="fa-solid fa-check text-xs"></i></div>
-                                <span class="font-medium text-sm sm:text-base tracking-wide">Sıfır Teknik Bilgi (Google Sheets Entegrasyonu)</span>
+                                <div class="w-8 h-8 rounded bg-gray-100 text-gray-900 flex items-center justify-center shrink-0 border border-gray-200"><i class="fa-solid fa-check text-sm"></i></div>
+                                <span class="font-medium text-base sm:text-lg tracking-wide">Sıfır Teknik Bilgi (Google Sheets Entegrasyonu)</span>
                             </div>
                             <div class="flex items-center gap-4 text-gray-800">
-                                <div class="w-7 h-7 rounded bg-gray-100 text-gray-900 flex items-center justify-center shrink-0 border border-gray-200"><i class="fa-solid fa-check text-xs"></i></div>
-                                <span class="font-medium text-sm sm:text-base tracking-wide">Akıllı Kontenjan Yönetimi & Otomatik Kapatma</span>
+                                <div class="w-8 h-8 rounded bg-gray-100 text-gray-900 flex items-center justify-center shrink-0 border border-gray-200"><i class="fa-solid fa-check text-sm"></i></div>
+                                <span class="font-medium text-base sm:text-lg tracking-wide">Akıllı Kontenjan Yönetimi & Otomatik Kapatma</span>
                             </div>
                             <div class="flex items-center gap-4 text-gray-800">
-                                <div class="w-7 h-7 rounded bg-gray-100 text-gray-900 flex items-center justify-center shrink-0 border border-gray-200"><i class="fa-solid fa-check text-xs"></i></div>
-                                <span class="font-medium text-sm sm:text-base tracking-wide">Kuruma Özel SEO Uyumlu Randevu Linki</span>
+                                <div class="w-8 h-8 rounded bg-gray-100 text-gray-900 flex items-center justify-center shrink-0 border border-gray-200"><i class="fa-solid fa-check text-sm"></i></div>
+                                <span class="font-medium text-base sm:text-lg tracking-wide">Kuruma Özel SEO Uyumlu Randevu Linki</span>
                             </div>
                         </div>
 
                         <!-- İletişim CTA Butonu -->
-                        <button onclick="contactSales()" class="group bg-gray-900 hover:bg-brand text-white font-bold text-base sm:text-lg py-4 px-8 rounded-xl transition-all duration-300 flex items-center w-fit gap-3 shadow-lg hover:shadow-brand/30 border border-transparent">
-                            <i class="fa-brands fa-whatsapp text-2xl text-[#25D366] group-hover:text-white transition-colors"></i>
+                        <button onclick="contactSales()" class="group bg-gray-900 hover:bg-brand text-white font-bold text-base sm:text-lg py-5 px-10 rounded-xl transition-all duration-300 flex items-center w-fit gap-4 shadow-lg hover:shadow-brand/30 border border-transparent">
+                            <i class="fa-brands fa-whatsapp text-3xl text-[#25D366] group-hover:text-white transition-colors"></i>
                             Hemen Başvur: 0555 792 47 58
                         </button>
                     </div>
+
+                    <!-- EN SON EKLENEN OKULLARIN LOGOLARI -->
+                    <div class="relative z-10 mt-16 lg:mt-auto pt-10 border-t border-gray-100 hidden sm:block">
+                        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-6">Sisteme Katılan Son Kulüpler</p>
+                        <div id="latest-schools-logos" class="flex flex-wrap gap-8 items-center">
+                            <!-- JS ile doldurulacak -->
+                        </div>
+                    </div>
                 </div>
 
-                <!-- Sağ Alan (Fiyatlandırma & Modern Panel - %40) -->
-                <div class="w-full lg:w-[40%] bg-[#fafafa] border-t lg:border-t-0 lg:border-l border-gray-200 p-8 sm:p-12 lg:p-16 flex flex-col justify-center relative overflow-hidden">
-                    <div class="absolute top-0 right-0 w-40 h-40 bg-brand opacity-[0.03] rounded-bl-full pointer-events-none"></div>
+                <!-- Sağ Alan (Fiyatlandırma & Modern Panel - %35) -->
+                <div class="w-full lg:w-[35%] bg-[#fafafa] border-t lg:border-t-0 lg:border-l border-gray-200 px-8 py-16 sm:px-12 lg:px-20 flex flex-col justify-center relative overflow-hidden min-h-[500px]">
+                    <div class="absolute top-0 right-0 w-64 h-64 bg-brand opacity-[0.02] rounded-bl-full pointer-events-none"></div>
 
-                    <div class="relative z-10 w-full flex flex-col h-full justify-between">
+                    <div class="relative z-10 w-full flex flex-col h-full justify-center">
                         
-                        <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center text-gray-900 text-2xl shadow-sm border border-gray-200 mb-8 lg:mb-12">
+                        <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center text-gray-900 text-3xl shadow-sm border border-gray-200 mb-10 lg:mb-16">
                             <i class="fa-solid fa-tag"></i>
                         </div>
 
                         <div>
-                            <h2 class="text-3xl font-black text-gray-900 mb-2 tracking-tight">Şeffaf Fiyat</h2>
-                            <p class="text-gray-500 text-sm mb-10 font-light">Gizli ücret veya komisyon yok.</p>
+                            <h2 class="text-4xl font-black text-gray-900 mb-3 tracking-tight">Şeffaf Fiyat</h2>
+                            <p class="text-gray-500 text-base mb-12 font-light">Gizli ücret veya komisyon yok.</p>
 
-                            <div class="bg-white p-8 rounded-2xl shadow-[0_10px_30px_-15px_rgba(0,0,0,0.1)] border border-gray-100 mb-8">
-                                <div class="text-gray-400 font-bold uppercase tracking-[0.15em] text-[10px] mb-4">Yıllık Lisans Bedeli</div>
-                                <div class="flex items-baseline gap-1 text-gray-900 mb-4">
-                                    <span class="text-6xl sm:text-7xl font-black tracking-tighter">1.200</span>
-                                    <span class="text-xl font-bold text-gray-400">TL</span>
+                            <div class="bg-white p-10 rounded-3xl shadow-[0_10px_30px_-15px_rgba(0,0,0,0.08)] border border-gray-100 mb-8">
+                                <div class="text-gray-400 font-bold uppercase tracking-[0.15em] text-xs mb-5">Yıllık Lisans Bedeli</div>
+                                <div class="flex items-baseline gap-2 text-gray-900 mb-6">
+                                    <span class="text-7xl sm:text-8xl font-black tracking-tighter">1.200</span>
+                                    <span class="text-2xl font-bold text-gray-400">TL</span>
                                 </div>
-                                <div class="bg-gray-50 text-gray-600 font-semibold text-xs py-2 px-3 rounded-md border border-gray-100 w-fit">
+                                <div class="bg-gray-50 text-gray-600 font-semibold text-sm py-2.5 px-4 rounded-lg border border-gray-100 w-fit">
                                     Her Okul + Branş İçin
                                 </div>
                             </div>
                         </div>
 
-                        <p class="text-[11px] text-gray-400 leading-relaxed max-w-[250px]">
+                        <p class="text-xs text-gray-400 leading-relaxed max-w-[280px] mt-6">
                             Üyeliğiniz boyunca teknik destek, sunucu barındırma ve tüm sistem güncellemelerinden ücretsiz faydalanırsınız.
                         </p>
                     </div>
@@ -536,6 +544,36 @@
             return { startStr, endStr, progress };
         }
 
+        // --- YENİ: LOGOLARI ANA SAYFAYA RENDER ETME FONKSİYONU ---
+        function renderLatestLogos() {
+            const container = document.getElementById('latest-schools-logos');
+            if (!container) return;
+            container.innerHTML = '';
+            
+            // Tüm okulları al, eklenme sırasına göre son (latest) olanları başa getir ve 10 tane kes
+            const latest10 = [...schoolsData].reverse().slice(0, 10);
+            
+            if(latest10.length === 0) {
+                container.parentElement.style.display = 'none';
+                return;
+            }
+
+            latest10.forEach(school => {
+                const branch = getBranchInfo(school.name);
+                const el = document.createElement('div');
+                // Silik gri, hover durumunda orijinal renk (grayscale -> grayscale-0)
+                el.className = "h-10 sm:h-12 flex items-center justify-center grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-300 cursor-default";
+                el.title = school.name;
+                
+                if (school.logo) {
+                    el.innerHTML = `<img src="${school.logo}" alt="${school.name}" class="h-full w-auto object-contain max-w-[120px]">`;
+                } else {
+                    el.innerHTML = `<div class="flex items-center gap-2"><i class="fa-solid ${branch.icon} text-2xl text-gray-500"></i><span class="text-xs font-bold text-gray-500 whitespace-nowrap">${school.name.substring(0,12)}...</span></div>`;
+                }
+                container.appendChild(el);
+            });
+        }
+
         async function fetchAppConfig() {
             try {
                 const response = await fetch(AUTH_SHEET_CSV_URL);
@@ -621,6 +659,9 @@
             
             await fetchAppConfig(); 
             await fetchAllGitData(); 
+
+            // Logoları doldur
+            renderLatestLogos();
 
             const savedUser = sessionStorage.getItem('sporRandevuUser');
             if (savedUser) {
@@ -1292,7 +1333,7 @@
             message += `- Adı Soyadı: ${athleteName}\n`;
             message += `- Cinsiyet: ${gender}\n`;
             message += `- Doğum Tarihi: ${dobFormatted}\n`;
-            message += `- Geçmiş: ${experience === 'Evet' ? 'Var (Daha önce eğitim aldı)' : 'Yok (Yeni başlayacak)'}\n\n`;
+            message += `- Geçmiş: ${experience === 'Evet' ? 'Var (Daha önce eğitim aldı)' : 'Yok (Yeni başlıyor)'}\n\n`;
             
             if (actionType === 'randevu') {
                 message += `[ İSTENEN SEANS & TARİH ]\n`;
