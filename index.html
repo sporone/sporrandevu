@@ -108,14 +108,14 @@
     <!-- Üst Menü (Navbar) -->
     <header class="glass-header sticky top-0 z-50 shadow-sm border-b border-gray-200">
         <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-            <div class="flex items-center gap-2 cursor-pointer" onclick="showView('home')">
+            <div class="flex items-center gap-2 cursor-pointer" onclick="goToHome()">
                 <div class="bg-brand text-white p-2 rounded-lg">
                     <i class="fa-solid fa-volleyball"></i>
                 </div>
                 <h1 class="text-xl font-bold text-brand-dark tracking-tight">SporRandevu</h1>
             </div>
             <div>
-                <button onclick="showView('home')" class="text-gray-500 hover:text-brand transition-colors p-2">
+                <button onclick="goToHome()" class="text-gray-500 hover:text-brand transition-colors p-2">
                     <i class="fa-solid fa-house text-xl"></i>
                 </button>
             </div>
@@ -195,7 +195,7 @@
 
         <!-- DETAY SAYFASI GÖRÜNÜMÜ -->
         <div id="detail-view" class="hidden fade-in">
-            <button onclick="showView('home')" class="mb-6 flex items-center gap-2 text-brand font-medium hover:text-brand-dark transition-colors">
+            <button onclick="goToHome()" class="mb-6 flex items-center gap-2 text-brand font-medium hover:text-brand-dark transition-colors">
                 <i class="fa-solid fa-arrow-left"></i> Okullara Dön
             </button>
 
@@ -300,13 +300,52 @@
     <!-- JavaScript İşleyişi -->
     <script>
         // ==========================================
+        // SEO & URL ROUTER FONKSİYONLARI (YENİ)
+        // ==========================================
+
+        // Okul adını SEO dostu linke (slug) çevirir (Örn: "Fenerbahçe" -> "fenerbahce")
+        function slugify(text) {
+            const trMap = {
+                'ç': 'c', 'ğ': 'g', 'ş': 's', 'ö': 'o', 'ü': 'u', 'ı': 'i',
+                'Ç': 'c', 'Ğ': 'g', 'Ş': 's', 'Ö': 'o', 'Ü': 'u', 'İ': 'i', 'I': 'i'
+            };
+            return text.replace(/[çğşöüıÇĞŞÖÜİI]/g, match => trMap[match])
+                .toLowerCase()
+                .replace(/[^a-z0-9\s-]/g, '') // Özel karakterleri sil
+                .replace(/[\s-]+/g, '-')      // Boşlukları tire yap
+                .replace(/^-+|-+$/g, '');     // Baş ve sondaki tireleri sil
+        }
+
+        // Ana sayfaya dönüş ve URL sıfırlama
+        window.goToHome = function(pushHistory = true) {
+            if (pushHistory) {
+                history.pushState({ view: 'home' }, 'SporRandevu', window.location.pathname);
+                document.title = "SporRandevu | Voleybol Ön Kayıt Sistemi";
+            }
+            showView('home');
+        }
+
+        // Tarayıcının geri/ileri (Back/Forward) butonlarını dinle
+        window.addEventListener('popstate', (event) => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const okulSlug = urlParams.get('okul');
+
+            if (okulSlug) {
+                const school = schoolsData.find(s => s.slug === okulSlug);
+                if (school) {
+                    loadDetail(school.id, false); // false: Geçmişe bir daha ekleme
+                } else {
+                    goToHome(false);
+                }
+            } else {
+                goToHome(false);
+            }
+        });
+
+
+        // ==========================================
         // AYARLAR VE VERİ YAPISI
         // ==========================================
-        
-        // DİKKAT: Google Sheets entegrasyonu için:
-        // 1. Tablonuzdaki sütun sırası tam olarak şöyle olmalıdır:
-        // ID, Name, Logo, Location, AgeGroups, Phone, Description, Pazartesi, Salı, Çarşamba, Perşembe, Cuma, Cumartesi, Pazar, Cinsiyet
-        // (Cinsiyet verisini en son sütuna -O Sütunu- "Kız", "Erkek" veya "Kız / Erkek" şeklinde giriniz)
         
         // Sizin ilettiğiniz Google Sheets tablosunun doğrudan CSV okuma linki eklendi:
         const GOOGLE_SHEETS_CSV_URL = "https://docs.google.com/spreadsheets/d/1V1SZXxCQTrS3MFHOr7VdmnwvZQwTsy98auagnNNuc8U/export?format=csv";
@@ -394,9 +433,26 @@
             } else {
                 schoolsData = MOCK_DATA;
             }
+
+            // Her okul için SEO uyumlu "slug" üret ve kaydet
+            schoolsData.forEach(s => {
+                if (!s.slug) s.slug = slugify(s.name);
+            });
+
             processCities(); 
             renderCities();  
             renderHome();    
+
+            // Link ile doğrudan bir okula gelinmişse o okulu aç
+            const urlParams = new URLSearchParams(window.location.search);
+            const okulSlug = urlParams.get('okul');
+            if (okulSlug) {
+                const targetSchool = schoolsData.find(s => s.slug === okulSlug);
+                if (targetSchool) {
+                    loadDetail(targetSchool.id, false);
+                }
+            }
+
             showLoading(false);
         }
 
@@ -565,7 +621,6 @@
 
             filteredSchools.forEach(school => {
                 const card = document.createElement('div');
-                // Kartın üst boşluğunu (padding-top) artırdık ki rozet isme çarpmasın (pt-12'den pt-16'ya)
                 card.className = "bg-white rounded-2xl shadow-sm border border-gray-100 p-5 pt-16 hover:shadow-lg transition-all duration-300 flex flex-col items-center text-center cursor-pointer group relative mt-4";
                 card.onclick = () => loadDetail(school.id);
                 const branch = getBranchInfo(school.name);
@@ -608,7 +663,7 @@
         // ==========================================
         // DETAY SAYFASI VE KONTENJAN MANTIĞI
         // ==========================================
-        function loadDetail(id) {
+        function loadDetail(id, pushHistory = true) {
             const school = schoolsData.find(s => s.id === id);
             if (!school) return;
 
@@ -956,6 +1011,12 @@
                     </section>
                 </div>
             `;
+
+            // Eğer sayfayı geçmişe eklememiz istenmişse URL'yi değiştir (Sayfa yüklendiğinde linkten gelindiyse zaten eklenmiş olur, tekrar eklenmez)
+            if (pushHistory) {
+                history.pushState({ view: 'detail', id: id }, school.name, '?okul=' + school.slug);
+                document.title = school.name + " | SporRandevu";
+            }
 
             showView('detail');
         }
