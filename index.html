@@ -621,12 +621,16 @@
                                 if (rawData[i].length > 1) {
                                     let schoolName = (rawData[i][1] || "").trim();
                                     
-                                    // Başlık satırını veya boş satırları atla
+                                    // Gelişmiş Filtreleme: Başlıkları, sayıları ve meta metinleri atla
                                     if (
                                         schoolName === "" || 
+                                        schoolName.length < 3 || // Çok kısa isimleri (0, 1, x) atla
                                         schoolName.toLowerCase() === "isim" || 
                                         schoolName.toLowerCase() === "i̇sim" || 
-                                        schoolName.toLowerCase() === "okul adı"
+                                        schoolName.toLowerCase() === "okul adı" ||
+                                        schoolName.toLowerCase().includes("helvetica") || // Font isimlerini atla
+                                        schoolName.toLowerCase().includes("make sure") || // Bilgilendirme metinlerini atla
+                                        !isNaN(schoolName) // Sadece sayıdan oluşan isimleri atla
                                     ) {
                                         continue;
                                     }
